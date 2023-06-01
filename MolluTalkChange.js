@@ -15,13 +15,7 @@
 /*预定义区*/
 
 /*函数库*/
-	/**
-	 * 打开数据库
-	 * @param {object} dbName 数据库的名字
-	 * @param {string} storeName 仓库名称
-	 * @param {string} version 数据库的版本
-	 * @return {object} 该函数会返回一个数据库实例
-	 */
+	//IndexedDB打开数据库
 	function openDB(dbName, version = 1) {
 		return new Promise((resolve, reject) => {
 		//	兼容浏览器
@@ -61,12 +55,7 @@
 		};
 		});
 	}
-	/**
-	 * 通过主键读取数据
-	 * @param {object} db 数据库实例
-	 * @param {string} storeName 仓库名称
-	 * @param {string} key 主键值
-	 */
+	//IndexedDB通过主键读取数据
 	function getDataByKey(db, storeName, key) {
 		return new Promise((resolve, reject) => {
 		var transaction = db.transaction([storeName]); // 事务
@@ -83,12 +72,7 @@
 		};
 		});
 	}
-	/**
-	 * 更新数据
-	 * @param {object} db 数据库实例
-	 * @param {string} storeName 仓库名称
-	 * @param {object} data 数据
-	 */
+	//IndexedDB更新数据
 	function updateDB(db, storeName, data) {
 		var request = db
 		.transaction([storeName], "readwrite") // 事务对象
@@ -103,17 +87,15 @@
 		console.log("数据更新失败");
 		};
 	}
-	/**
-	 * 关闭数据库
-	 * @param {object} db 数据库实例
-	 */
+	//IndexedDB关闭数据库
 	function closeDB(db) {
 		db.close();
 		//console.log("数据库已关闭");
 	}
 
+	//保存自定义数据
 	function savedb()
-	{//保存自定义数据
+	{
 		let db;
 		let html = new Array();//自定义内容
 		$('.eLDbih').each(function(i)
@@ -131,7 +113,6 @@
 				html[$('.eLDbih').length][i]['heart'] = $('.heJhGb .medium')[i].innerText;//羁绊
 			});
 		}
-		
 		openDB('MolluTalkChange数据库').then((db =>
 		{
 			db = db;
@@ -145,8 +126,10 @@
 			closeDB(db)//关闭数据库
 		}))
 	}
+
+	//读取自定义数据
 	function loaddb()
-	{//读取自定义数据
+	{
 		let db;
 		openDB('MolluTalkChange数据库').then((db =>
 		{
@@ -165,11 +148,14 @@
 						$('.heJhGb .medium')[i].innerText = JSON.parse(arr['val'])[$('.eLDbih').length][i]['heart'];
 					});
 				}
+				sav = 'yes';//允许保存自定义数据
 			}))
 			closeDB(db)//关闭数据库
 		}))
 	}
-	function savedata()//保存数据
+
+	//保存通用数据
+	function savedata()
 	{
 		localStorage['chats'] = sessionStorage['chats'];
 		localStorage['replyNo'] = sessionStorage['replyNo'];
@@ -178,6 +164,7 @@
 		// console.log(sav);
 	}
 
+	//元素出现后执行代码
 	jQuery.fn.wait = function (func,cls,times,interval) {
 		var _times = times || -1, //100次
 			_interval = interval || 2000, //20毫秒每次
@@ -201,8 +188,10 @@
 		}
 		return this;
 	}
+
+	//图片压缩
 	function compress(base64Img)
-	{//图片压缩
+	{
 		var img = new Image();//创建一个空白图片对象
 		img.src = base64Img;//图片对象添加图片地址
 		img.onload = function ()//图片地址加载完后执行操作
@@ -214,11 +203,13 @@
 			canvas.height = newHeight;//压缩图的高度
 			ctx.drawImage(img,0,0,newWidth,newHeight);
 			var newBase64 = canvas.toDataURL("image/jpeg",quality);
-			$($(".eLDbih")[imgindex]).attr('src',newBase64);
+			$($(".eLDbih")[imgindex]).attr('src',newBase64);//改写图片
 		}
 	}
+
+	//文件下载
 	function download_txt(filename,content,contentType)
-	{//文件下载
+	{
 		if (!contentType) contentType = 'application/octet-stream';
 		var a = document.createElement('a');
 		var blob = new Blob([content],{ 'type': contentType });
@@ -237,7 +228,6 @@
 		sessionStorage['replyGroup'] = localStorage['replyGroup'];
 		window.location.reload();//刷新页面
 	}
-	window.onload = function(){sav = 'yes';}//页面加载完成后开启自动存档功能
 
 	//自动保存
 	$("body").bind("mousedown",function()//鼠标点击后执行
@@ -252,7 +242,6 @@
 		}
 		if(isr){clearTimeout(time);}else{isr = true;}
 		time = setTimeout(function(){savedata();},500)//延时保存
-		
 	});
 	$('body').on('change',"input[type='file']",function()
 	{
@@ -302,7 +291,6 @@
 			"	2.自动保存功能，退出浏览器未保存的内容不会消失\n"+
 			"	3.插件专用存档的生成和读取功能\n"+
 			"	4.聊天记录长度和数据大小检测功能，到达一定程度会有警告提示\n"+
-			"※自定义内容的自动保存功能在页面完全加载完毕后才会启动\n"+
 			"※预计4.0版本加入创建自定义人物功能，另有其它使用建议麻烦向我反馈");
 	});
 	$('body').on('click',"#warning",function()
@@ -412,7 +400,7 @@
 			localStorage['chats'] = sessionStorage['chats'] = JSON.parse(this.result)[1];
 			localStorage['replyNo'] = sessionStorage['replyNo'] = JSON.parse(this.result)[2];
 			localStorage['replyGroup'] = sessionStorage['replyGroup'] = JSON.parse(this.result)[3];
-			sav = 'no';
+			sav = 'no';//禁止保存自定义数据
 			alert("读取完毕，将屏蔽页面所有操作，请刷新页面");
 			document.addEventListener("click",handler,true);function handler(e){e.stopPropagation();e.preventDefault();}
 		}

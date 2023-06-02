@@ -98,21 +98,28 @@
 	{
 		let db;
 		let html = new Array();//自定义内容
+		html[0] = {};
+		html[1] = {};
+		html[2] = {};
+		//保存头像文件
 		$('.eLDbih').each(function(i)
 		{
-			html[i] = {};
-			html[i]['src'] = $('.eLDbih')[i].src;//头像
-			html[i]['name'] = $('.jRPwkT .bold')[i].innerText;//人名
+			html[0][i] = {};
+			html[0][i]['src'] = $('.eLDbih')[i].src;//头像
+			html[0][i]['name'] = $('.jRPwkT .bold')[i].innerText;//人名
 		});
-		if($('.heJhGb .medium').length)
+		//保存人物名称
+		$('.heJhGb .medium').each(function(i)
 		{
-			html[$('.eLDbih').length] = {};
-			$('.heJhGb .medium').each(function(i)
-			{
-				html[$('.eLDbih').length][i] = {};
-				html[$('.eLDbih').length][i]['heart'] = $('.heJhGb .medium')[i].innerText;//羁绊
-			});
-		}
+			html[1][i] = {};
+			html[1][i]['heart'] = $('.heJhGb .medium')[i].innerText;//羁绊
+		});
+		//保存图片文件
+		$('.jchjft').each(function(i)
+		{
+			html[2][i] = {};
+			html[2][i]['img'] = $('.jchjft')[i].src;//图片
+		});
 		openDB('MolluTalkChange数据库').then((db =>
 		{
 			db = db;
@@ -126,7 +133,6 @@
 			closeDB(db)//关闭数据库
 		}))
 	}
-
 	//读取自定义数据
 	function loaddb()
 	{
@@ -136,19 +142,28 @@
 			db = db;
 			getDataByKey(db,'自定义数据','custom').then((arr =>
 			{
-				$('.eLDbih').each(function(i)
+				if(arr && arr['val'].length > 2)
 				{
-					if(JSON.parse(arr['val'])[i]['src'].indexOf("data:image") !== -1)$('.eLDbih')[i].src = JSON.parse(arr['val'])[i]['src'];
-					$('.jRPwkT .bold')[i].innerText = JSON.parse(arr['val'])[i]['name'];
-				});
-				if($('.heJhGb .medium').length)
-				{
+					//读取头像
+					$('.eLDbih').each(function(i)
+					{
+						if(JSON.parse(arr['val'])[0][i] && JSON.parse(arr['val'])[0][i]['src'].indexOf("data:image") !== -1)$('.eLDbih')[i].src = JSON.parse(arr['val'])[0][i]['src'];
+						if(JSON.parse(arr['val'])[0][i])$('.jRPwkT .bold')[i].innerText = JSON.parse(arr['val'])[0][i]['name'];
+					});
+					//读取名称
 					$('.heJhGb .medium').each(function(i)
 					{
-						$('.heJhGb .medium')[i].innerText = JSON.parse(arr['val'])[$('.eLDbih').length][i]['heart'];
+						$('.heJhGb .medium')[i].innerText = JSON.parse(arr['val'])[1][i]['heart'];
+					});
+					//读取图片
+					$('.jchjft').each(function(i)
+					{
+						if(JSON.parse(arr['val'])[2][i] && JSON.parse(arr['val'])[2][i]['img'].indexOf("data:image") !== -1)$('.jchjft')[i].src = JSON.parse(arr['val'])[2][i]['img'];
+						//$('.jRPwkT .bold')[i].innerText = JSON.parse(arr['val'])[2][i]['name'];
 					});
 				}
-				sav = 'yes';//允许保存自定义数据
+				setTimeout(function(){sav = 'yes';console.log('自定义数据读取完成');},1000)//允许保存自定义数据
+				
 			}))
 			closeDB(db)//关闭数据库
 		}))
@@ -160,8 +175,11 @@
 		localStorage['chats'] = sessionStorage['chats'];
 		localStorage['replyNo'] = sessionStorage['replyNo'];
 		localStorage['replyGroup'] = sessionStorage['replyGroup'];
-		if(sav == 'yes')savedb();
-		// console.log(sav);
+		if(sav == 'yes')
+		{
+			console.log((JSON.stringify(localStorage).length/1048576).toFixed(2)+"MB")
+			savedb();
+		}
 	}
 
 	//元素出现后执行代码
@@ -217,6 +235,19 @@
 		a.download = filename;
 		a.click();
 	}
+
+	//警告提示
+	function warning()
+	{
+		if($(".iBfcuf").height() > 10000 || (JSON.stringify(localStorage).length/1048576).toFixed(0) > 2)//检测聊天框宽度
+		{
+			$("#warning").removeAttr('hidden');//显示警告
+		}
+		else
+		{
+			$("#warning").attr('hidden','hidden');//隐藏警告
+		}
+	}
 /*函数库*/
 
 /*代码区*/
@@ -230,21 +261,31 @@
 	}
 
 	//自动保存
-	$("body").bind("mousedown",function()//鼠标点击后执行
+	$("body").on('click',".BLyyP",function()
 	{
-		if($(".iBfcuf").height() > 10000 || (JSON.stringify(localStorage).length/1048576).toFixed(2) > 4)//检测聊天框宽度
-		{
-			$("#warning").removeAttr('hidden');//显示警告
-		}
-		else
-		{
-			$("#warning").attr('hidden','hidden');//隐藏警告
-		}
-		if(isr){clearTimeout(time);}else{isr = true;}
-		time = setTimeout(function(){savedata();},500)//延时保存
-	});
+		//图片恢复
+		let kong = false;
+		$('.jchjft').each(function(i){if($('.jchjft')[i].src == "https://server.raun0129.com/MolluSpringBoot/")kong = true;});
+		if(kong)loaddb();
+		//延时保存
+		warning();
+		if(isr){clearTimeout(time);}else{isr = true;}time = setTimeout(function(){savedata();},500)
+	})
+	// $('body').on('change',sessionStorage,function()
+	// {
+	// 	localStorage['chats'] = sessionStorage['chats'];
+	// 	localStorage['replyNo'] = sessionStorage['replyNo'];
+	// 	localStorage['replyGroup'] = sessionStorage['replyGroup'];
+	// 	console.log(JSON.stringify(sessionStorage).length)
+	// 	if(sav == 'yes')
+	// 	{
+	// 		//console.log("当前数据大小为"+JSON.stringify(localStorage).length)
+	// 		savedb();
+	// 	}
+	// });
 	$('body').on('change',"input[type='file']",function()
 	{
+
 		if(isr){clearTimeout(time);}else{isr = true;}
 		time = setTimeout(function(){savedata();},500)//延时保存
 	});
@@ -254,15 +295,13 @@
 	{
 		$(".bIcduz").after("<button style='color:red;' id='opentool'>打开工具</button>");
 		$(".bIcduz").after("<button hidden style='color:red;' id='closetool'>隐藏工具</button>");
-		$(".bIcduz").after("<span hidden id='load'><button class='common__IconButton-sc-1ojome3-0 Header__QuestionButton-sc-17b1not-3 mvcff kNOatn bold'><b style='color:blue;'>讀</b></button>※读取插件存档</span>");
-		$(".bIcduz").after("<span hidden id='save'><button class='common__IconButton-sc-1ojome3-0 Header__QuestionButton-sc-17b1not-3 mvcff kNOatn bold'><b style='color:blue;'>存</b></button></a>※生成插件存档");
-		$(".bIcduz").after("<span hidden id='help'><button class='common__IconButton-sc-1ojome3-0 Header__QuestionButton-sc-17b1not-3 mvcff kNOatn bold'><b style='color:blue;'>説</b></button>※使用说明</span>");
+		$(".bIcduz").after("<span hidden id='baocun'><button class='common__IconButton-sc-1ojome3-0 Header__QuestionButton-sc-17b1not-3 mvcff kNOatn bold'><b style='color:blue;'>手</b></button>※手动保存</span>");
+		$(".bIcduz").after("<span hidden id='load'><button class='common__IconButton-sc-1ojome3-0 Header__QuestionButton-sc-17b1not-3 mvcff kNOatn bold'><b style='color:blue;'>讀</b></button>※读取存档</span>");
+		$(".bIcduz").after("<span hidden id='save'><button class='common__IconButton-sc-1ojome3-0 Header__QuestionButton-sc-17b1not-3 mvcff kNOatn bold'><b style='color:blue;'>存</b></button></a>※生成存档");
+		$(".bIcduz").after("<span hidden id='help'><button class='common__IconButton-sc-1ojome3-0 Header__QuestionButton-sc-17b1not-3 mvcff kNOatn bold'><b style='color:blue;'>説</b></button>※插件说明</span>");
 		$(".bIcduz").after("<span hidden id='warning'><button class='common__IconButton-sc-1ojome3-0 Header__QuestionButton-sc-17b1not-3 mvcff kNOatn bold'><b style='color:red;'>⚠️</b></button></a>※警告提示</span>");
 		loaddb();//读取自定义数据
-		if($(".iBfcuf").height() > 10000 || (JSON.stringify(localStorage).length/1048576).toFixed(2) > 4)//检测聊天框宽度
-		{
-			$("#warning").removeAttr('hidden');//显示警告
-		}
+		warning();
 	},".bIcduz")
 	$('body').on('click',"#opentool",function()
 	{
@@ -270,6 +309,7 @@
 		$("#opentool").attr('hidden','hidden');
 		$("#closetool").removeAttr('hidden');
 
+		$("#baocun").removeAttr('hidden');
 		$("#load").removeAttr('hidden');
 		$("#save").removeAttr('hidden');
 		$("#help").removeAttr('hidden');
@@ -280,23 +320,32 @@
 		$("#opentool").removeAttr('hidden');
 		$("#closetool").attr('hidden','hidden');
 
+		$("#baocun").attr('hidden','hidden');
 		$("#load").attr('hidden','hidden');
 		$("#save").attr('hidden','hidden');
 		$("#help").attr('hidden','hidden');
 	})
 	$('body').on('click',"#help button",function()
 	{
-		alert("※此插件版本为3.0正式版，支持功能如下：\n"+
+		alert("※此工具为的MolluTalk（作者Raun0129）的功能增强插件\n"+
+			"※插件当前版本为3.4，支持功能如下：\n"+
 			"	1.人物的名称、头像、羁绊事件的自定义修改功能\n"+
 			"	2.自动保存功能，退出浏览器未保存的内容不会消失\n"+
 			"	3.插件专用存档的生成和读取功能\n"+
 			"	4.聊天记录长度和数据大小检测功能，到达一定程度会有警告提示\n"+
+			"	5.增加手动保存功能，用于自定义内容自动保存失败时的备用选项\n"+
+			"※聊天数据过大会有警告提示，可以使用手动保存功能后刷新页面来压缩存储空间\n"+
+			"※修复了原版的图片消失问题，【↑】为数据大小限制提供了解决方案\n"+
 			"※预计4.0版本加入创建自定义人物功能，另有其它使用建议麻烦向我反馈");
 	});
 	$('body').on('click',"#warning",function()
 	{
 		if($(".iBfcuf").height() > 10000)alert("聊天记录长度为"+$(".iBfcuf").height()+"，超过10000可能会影响到聊天记录图片的生成");
-		if((JSON.stringify(localStorage).length/1048576).toFixed(2) > 4)alert("聊天数据大小为"+(JSON.stringify(localStorage).length/1048576).toFixed(2)+"MB，超过5MB会出现错误");
+		if((JSON.stringify(localStorage).length/1048576).toFixed(2) > 2)
+		{
+			alert("当前数据大小为"+(JSON.stringify(localStorage).length/1048576).toFixed(2)+"MB，超过5MB会有可能损坏插件存档\n"+
+				"点击手动保存按钮然后刷新页面即可压缩存储空间");
+		}
 	});//按钮提醒
 
 	//添加上传标签
@@ -324,7 +373,7 @@
 	});
 
 	//修改人名
-	$("body").on('click',".jRPwkT span:not(.fWynih)",function()
+	$("body").on('click',".jRPwkT .bold",function()
 										{
 		$(this).attr("hidden","hidden");
 		$(this).before("<input value='"+$(this).text()+"'><button class='mingzi'>确定修改</button>");
@@ -404,6 +453,20 @@
 			alert("读取完毕，将屏蔽页面所有操作，请刷新页面");
 			document.addEventListener("click",handler,true);function handler(e){e.stopPropagation();e.preventDefault();}
 		}
+	});
+
+	//手动保存
+	$('body').on('click',"#baocun button",function()
+	{
+		alert("这是自定义内容自动保存失效下的备选方案")
+		let arr = JSON.parse(sessionStorage['chats']);
+		$.each(arr,function(i){if(arr[i]['file'])arr[i]['file'] = '#';});
+		sessionStorage['chats'] = JSON.stringify(arr);
+		localStorage['chats'] = sessionStorage['chats'];
+		localStorage['replyNo'] = sessionStorage['replyNo'];
+		localStorage['replyGroup'] = sessionStorage['replyGroup'];
+		console.log('自定义数据保存完成');
+		
 	});
 
 	//屏蔽选项跳转操作

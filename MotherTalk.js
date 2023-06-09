@@ -19,18 +19,29 @@
 	$(".frVjsk").wait(function()
 	{
 		height = $(".iBfcuf").height().toFixed(0);
+		$(".frVjsk").append("<span><button id='uphead' class='"+class0+"'><b style='color:black;'>傳</b></button>※手动上传头像，当前角色名：<br><span style='writing-mode:tb-rl;background:rgb(255,255,255);' id='cusname'></span><br>");
 		$(".frVjsk").append("<span></button>※本地存档大小：<b id='size' style='color:red;'>"+size+"</b>KB</span><br>");
 		$(".frVjsk").append("<span></button>※聊天记录长度：<b id='height' style='color:red;'>"+height+"</b></span><br>");
 		$(".frVjsk").append("<span><button id='help' class='"+class0+"'><b style='color:yellow;'>説</b></button>※使用说明</span><br>");
 		$(".frVjsk").append("<span><button id='makecus' class='"+class0+"'><b style='color:red;'>創</b></button>※创建自定义角色</span><br>");
 		$(".frVjsk").append("<span><button id='delcus' class='"+class0+"'><b style='color:red;'>刪</b></button>※删除自定义角色</span><br>");
+		$(".frVjsk").append("<span><button id='changecus' class='"+class0+"'><b style='color:red;'>改</b></button>※更改角色信息※请输入角色ID：↓<input size='6' id='ccus'><br></span><br>");
 		$(".frVjsk").append("<span><button id='language' class='"+class0+"'><b style='color:blue;'>語</b></button>※更改语言</span><br>");
+		$(".frVjsk").append("<span><button id='send' class='"+class0+"'><b style='color:blue;'>發</b></button>※文字发送方式</span><br>");
 		$(".frVjsk").append("<span><button id='head' class='"+class0+"'><b style='color:blue;'>頭</b></button>※右侧添加头像</span><br>");
 		$(".frVjsk").append("<span><button id='savecus' class='"+class0+"'><b style='color:green;'>備</b></button>※备份自定义角色存档</span><br>");
 		$(".frVjsk").append("<span><button id='loadcus' class='"+class0+"'><b style='color:green;'>讀</b></button>※读取自定义角色存档</span><br>");
+		$(".frVjsk").append("<span><button id='fast' class='"+class0+"'><b style='color:black;'>速</b></button>※进入精简极速版</span><br>");
 		$(".frVjsk").append("<span><button id='clean' class='"+class0+"'><b style='color:black;'>清</b></button>※清除本地存档</span><br>");
-		$(".frVjsk").append("<span><button id='uphead' class='"+class0+"'><b style='color:black;'>傳</b></button>※手动上传头像，当前角色名：<br><span style='background:rgb(255,255,255);' id='cusname'></span><br>");
 	},".frVjsk")
+	//
+	$('body').on('click',"#fast",function()
+	{
+		if(confirm('是否确认进入极速版网页？\n极速版没有学生、没有表情、没有样式布局\n只为最快速访问：https://ggg555ttt.gitee.io/mothertalk/fast.html'))
+		{
+			window.location.replace('https://ggg555ttt.gitee.io/mothertalk/fast.html')
+		}
+	})
 	$('body').on('click',"#makecus",function()
 	{
 		
@@ -38,7 +49,7 @@
 		let cus = prompt("请输入角色姓名，创建成功后需刷新页面确认\n"+
 			"如果名字中带空格，则聊天界面只显示第一个空格后的文字\n"+
 			"例：【砂狼 白子】，聊天界面只显示：【白子】\n"+
-			"如果点击确认后未出现文件上传界面，请点击最下方的【傳】字按钮");
+			"如果点击确认后未出现文件上传界面，请点击最上方的【傳】字按钮");
 
 		if(cus != null && cus.trim() != '')
 		{
@@ -130,23 +141,63 @@
 			localStorage['lang'] = lang;
 		}
 	})
+	$('body').on('click',"#changecus",function()
+	{
+		let id = parseInt($("#ccus").val());
+		if(!isNaN(id))
+		{
+			chararr = JSON.parse(localStorage['custom'])
+			let arr = JSON.parse(localStorage['custom'])[0]['club'][0]['characters'];
+			$.each(arr,function(k,i)
+			{
+				if($(this)[0]['no'] == id+1000)
+				{
+					let cname = prompt("如果点击确认后未出现文件上传界面，请点击最上方的【傳】字按钮\n当前角色名为：",$(this)[0]['zh_cn'].replace("(#"+id+")",'').trim());
+					if(cname != null && cname.trim() != '')
+					{
+						if(cname.trim().indexOf(' ')<0)cname = ' '+cname;
+
+						$(this)[0]['zh_cn'] = "(#"+id+")"+cname
+						chararr[0]['club'][0]['characters'] = arr;
+						console.log(chararr[0]['club'][0]['characters'][id]);
+					}
+					imgindex = arr.indexOf($(this)[0])+1000;
+					$("#cusname").text($(this)[0]['zh_cn'].replace("(#"+id+")",'').trim());
+					$("#custom").click();
+				}
+			})
+		}
+	})
 	$('body').on('click',"#head",function()
 	{
-		let head = prompt("头像以你底下的角色选择框第一个头像为准，请输入人名，不输入即为空（不要重复点击）");
-		let img = "<img src='"+$('.fzOyMd:eq(0)').attr('src')+"'class='common__Profile-sc-1ojome3-6 ekLMv'>";
+		let head = prompt("头像以你底下的角色选择框第一个头像为准，请输入人名，不输入即为空");
+		let img = "<img src='"+$('.fzOyMd:eq(0)').attr('src')+"'class='common__Profile-sc-1ojome3-6 ekLMv rhead'>";
+		$('.dCYmqA').next().remove();$('.dCYmqA').next().remove();
 		if(head != null && head != '')
 		{
-			$('.bLIaNz').after("<span style='writing-mode:tb-rl;background:rgb(76,91,111);line-height:normal;'>"+head+"</span>",img)
-			$('.jchjft').after("<span style='writing-mode:tb-rl;background:rgb(76,91,111);line-height:normal;'>"+head+"</span>",img)
+			$('.dCYmqA').after("<span style='writing-mode:tb-rl;background:rgb(76,91,111);line-height:normal;'>"+head+"</span>",img)
 		}
 		else
 		{
-			$('.bLIaNz').after(".",img)
-			$('.jchjft').after(".",img)
-
+			$('.dCYmqA').after(img)
 		}
 	})
-		
+	$('body').on('click','.rhead',function()
+	{
+		if($(this).prev().is('span'))
+		{
+			$(this).prev().remove();
+			$(this).remove();
+		}
+	})
+	
+	$("body").keyup(function(event)
+	{
+		if(event.keyCode==13 && localStorage['send']=='enter')
+		{
+			$("[title='send']").click();
+		}
+	});
 	$('body').on('click',"#savecus",function()
 	{
 		if(!localStorage['custom']) return false;
@@ -164,6 +215,25 @@
 	$('body').on('click',"#loadcus",function()
 	{
 		$("#loadcusfile").click()
+	})
+	$('body').on('click',"#send",function()
+	{
+		if(!localStorage['send'])
+		{
+			if(confirm('当前发送方式为点击按钮发送，是否换为回车发送？'))
+			{
+				localStorage['send'] = 'enter';
+				$('.juTGbm:eq(1)').attr('onkeydown',"if(event.keyCode === 13)event.preventDefault();");
+			}
+		}
+		else
+		{
+			if(confirm('当前发送方式为回车发送，是否换为点击按钮发送？'))
+			{
+				localStorage.removeItem('send');
+				$('.juTGbm:eq(1)').removeAttr('onkeydown');
+			}
+		}
 	})
 	$('body').on('change',"#loadcusfile",function()
 	{
@@ -282,14 +352,15 @@
 	$('body').on('click',"#help",function()
 	{
 		alert("※此为MolluTalk（作者Raun0129）的功能增强改版\n"+
-			"※当前版本为4.0，功能如下：\n"+
-			"	1.自定义角色的创造、删除功能（理论上没有数量上限，但建议不要超过50人）\n"+
+			"※当前版本为4.1，功能如下：\n"+
+			"	1.自定义角色的创造、删除、修改功能（理论上没有数量上限，但建议不要超过50人）\n"+
 			"	2.与ClosureTalk相同的永久保存功能，退出浏览器时未保存的内容不会消失\n"+
 			"	3.自定义角色的存档备份、读取功能\n"+
 			"	4.聊天记录长度和数据大小检测功能，到达一定程度会有警告提示\n"+
-			"	5.增加更改语言功能\n"+
-			"	6.增加为右侧添加头像和名称功能\n"+
+			"	5.语言、发送方式（可以使用回车键发送信息）的更改功能\n"+
+			"	6.为右侧添加头像和名称功能\n"+
 			"	7.更改上传的图片为JPG格式，节省了存储空间\n"+
+			"	8.添加了精简极速版网页，访问更快速\n"+
 			"※如果有其他使用建议和错误请向我反馈");
 	});
 /*代码区*/

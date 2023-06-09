@@ -1,10 +1,10 @@
 /*预定义区*/
 	var imgindex;var text;//人物自定义
-	var headarr = [];
-	var chararr = [];
-	var height;
+	var headarr = [];//头像储存
+	var chararr = [];//自定义角色列表
+	var height;//聊天记录长度
+	var size = (JSON.stringify(localStorage).length/1024).toFixed(0);//数据大小
 	var heads = 0;
-	var size = (JSON.stringify(localStorage).length/1024).toFixed(0);
 	$.each(Object.keys(sessionStorage),function(k,i)
 	{
 		headarr[i] = sessionStorage.getItem(i);
@@ -128,6 +128,7 @@
 				key : headindex,//唯一
 				val : img64
 			}
+			if((JSON.stringify(sessionStorage).length/1048576).toFixed(2) < 4.9)sessionStorage["#"+headindex] = img64;
 			updateDB(db,'Custom', data)
 			closeDB(db)//关闭数据库
 		}))

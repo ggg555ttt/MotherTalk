@@ -23,7 +23,7 @@ if(getCurentFileName() == 'fast.html')
 {
 	if(!localStorage['imgs'] || localStorage['imgs'] != 566)
 	{
-		alert('第一次进入会将图片存入本地数据库，请耐心等待\n建议您确认图片可以正常加载后再刷新页面\n如果出现错误建议您※清除本地数据并重新进入');
+		alert('第一次进入会将图片存入本地数据库，请耐心等待5到10分钟\n建议您确认图片可以正常加载后再刷新页面\n如果出现错误建议您※清除本地数据并重新进入');
 		$.get("BA.JSON",function(data) 
 		{
 			localStorage['imgs'] = 0;

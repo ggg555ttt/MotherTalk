@@ -1,0 +1,583 @@
+var first;
+if(!localStorage['first'])localStorage['first'] = '[]';
+if(!localStorage['chats'])localStorage['chats'] = '[]';
+if(!localStorage['lang'])localStorage['lang'] = 'zh_cn';
+
+//字体加载选项
+if(!localStorage['nofont'])
+{
+	if(getCurentFileName() == 'test.html')$("head").append("<link rel='stylesheet' href='./MolluTalk_files/style_test.css' data-n-g=''>");
+	else $("head").append("<link rel='stylesheet' href='./MolluTalk_files/style.css' data-n-g=''>");
+}
+//版本判断
+$('.Header__Title-sc-17b1not-2.jZKzYg').wait(function()
+{
+	$(this).text("MotherTalk5.0");//正式版
+	if(getCurentFileName() == 'fast.html')$(this).html("MotherTalk<span style='color:red;'>Fast</span>5.0");//极速版
+	if(getCurentFileName() == 'lite.html')$(this).html("MotherTalk<span style='color:red;'>Lite</span>5.0");//精简版
+	if(getCurentFileName() == 'test.html')$(this).html("MotherTalk<span style='color:red;'>Test</span>5.0");//原版
+},'.Header__Title-sc-17b1not-2.jZKzYg')
+
+//极速版专用
+if(getCurentFileName() == 'fast.html')
+{
+	if(!localStorage['imgs'] || localStorage['imgs'] != 566)
+	{
+		alert('第一次进入会将图片存入本地数据库，请耐心等待\n建议您确认图片可以正常加载后再刷新页面\n如果出现错误建议您※清除本地数据并重新进入');
+		$.get("BA.JSON",function(data) 
+		{
+			localStorage['imgs'] = 0;
+			$.each(data,function(k,v)
+			{
+				savehead(k,'data:image/jpeg;base64,'+v)
+			})
+		});
+	}
+
+}
+
+$("body").on('click',function()
+{
+	let checkbox = "<input class='dels' type='checkbox' hidden='hidden'>";
+	size = (JSON.stringify(localStorage).length/1024).toFixed(0);
+	height = $(".iBfcuf").height().toFixed(0);
+	$('#size').text(size);
+	$('#height').text(height);
+	warning();
+
+	if(localStorage['send'] == 'enter')$('.juTGbm:eq(1)').attr('onkeydown',"if(event.keyCode === 13)event.preventDefault();")
+	else $('.juTGbm:eq(1)').removeAttr('onkeydown');
+
+	let arr = [];
+	if(first == 'first')
+	{
+		$('.bDaxmX img').each(function(i)
+		{
+			if($(this).attr('style') == 'display: block;')arr[i] = true
+			else arr[i] = false
+		});
+		localStorage['first'] = JSON.stringify(arr)
+	}
+	let i = 0;
+	let chats = JSON.parse(localStorage['chats']);
+	$.each(chats,function(k,v)
+	{
+		//console.log(v.sCharacter);
+		if(v.sCharacter.no > 0 && (v.type == 'chat' || v.type == 'image'))
+		{
+			chats[k]['isFirst'] = JSON.parse(localStorage['first'])[i];
+			localStorage['chats'] = JSON.stringify(chats);
+			i++
+		}
+	})
+	if((JSON.stringify(sessionStorage).length/1048576).toFixed(2) > 4.9)
+	{
+		let n = 1;
+		$.each(sessionStorage,function(k,v)
+		{
+			if(n <= 10)sessionStorage.removeItem(k);n++;
+		})
+	}
+
+	$(".jhinQ").each(function(){if($(this).parents('.hfOSPu').find('.dels').length == 0)$(this).parents('.hfOSPu').append(checkbox);})
+	$(".evqKja").each(function(){if($(this).parent().find('.dels').length == 0)$(this).parent().append(checkbox);})
+	if($('.dels').attr('hidden') != 'hidden')$('.dels').removeAttr('hidden');
+})
+//标题框
+$(".bIcduz").wait(function()
+{
+	height = $(".iBfcuf").height().toFixed(0);
+	$(".bIcduz").after("<span id='warning'><button class='"+class0+"'><b style='color:red;'>⚠️</b></button></a>※警告提示</span>");
+	warning();
+},".bIcduz")
+//加载工具
+$(".frVjsk").wait(function()
+{
+	height = $(".iBfcuf").height().toFixed(0);
+	$(".frVjsk").append("<span style='color:green;'><button id='uphead' class='"+class0+"'><b style='color:black;'>傳</b></button>※手动上传头像，当前角色名：<br><span style='writing-mode:tb-rl;background:rgb(255,255,255);' id='cusname'></span><br>");
+	$(".frVjsk").append("<span style='color:blue;'>※本地存档大小：<b id='size' style='color:red;'>"+size+"</b>KB</span><br>");
+	$(".frVjsk").append("<span style='color:blue;'>※聊天记录长度：<b id='height' style='color:red;'>"+height+"</b></span><br>");
+	$(".frVjsk").append("<span><button id='help' class='"+class0+"'><b style='color:rgb(139,187,233);'>説</b></button>※使用说明</span><br>");
+	$(".frVjsk").append("<span><button id='makecus' class='"+class0+"'><b style='color:red;'>創</b></button>※创建自定义角色</span><br>");
+	$(".frVjsk").append("<span><button id='delcus' class='"+class0+"'><b style='color:red;'>刪</b></button>※删除自定义角色</span><br>");
+	$(".frVjsk").append("<span><button id='changecus' class='"+class0+"'><b style='color:red;'>改</b></button>※更改角色信息※请输入角色ID：↓<input size='5' id='ccus'/><br></span><br>");
+	$(".frVjsk").append("<span><button id='savecus' class='"+class0+"'><b style='color:green;'>備</b></button>※备份自定义角色存档</span><br>");
+	$(".frVjsk").append("<span><button id='loadcus' class='"+class0+"'><b style='color:green;'>恢</b></button>※恢复自定义角色存档</span><br>");
+	$(".frVjsk").append("<span><button id='head' class='"+class0+"'><b style='color:blue;'>頭</b></button>※右侧添加头像</span><br>");
+	$(".frVjsk").append("<span><button id='language' class='"+class0+"'><b style='color:blue;'>語</b></button>※更改语言</span><br>");
+	$(".frVjsk").append("<span><button id='send' class='"+class0+"'><b style='color:blue;'>發</b></button>※文字发送方式</span><br>");
+	$(".frVjsk").append("<span><button id='font' class='"+class0+"'><b style='color:blue;'>字</b></button>※字体加载选项</span><br>");
+	$(".frVjsk").append("<span><button id='formal' class='"+class0+"'><b style='color:green;'>正</b></button>※访问正式版</span><br>");
+	$(".frVjsk").append("<span><button id='fast' class='"+class0+"'><b style='color:green;'>速</b></button>※访问极速版</span><br>");
+	$(".frVjsk").append("<span><button id='lite' class='"+class0+"'><b style='color:green;'>簡</b></button>※访问精简版</span><br>");
+	$(".frVjsk").append("<span><button id='test' class='"+class0+"'><b style='color:green;'>測</b></button>※访问测试版</span><br>");
+	$(".frVjsk").append("<span><button id='dels' class='"+class0+"'><b style='color:black;'>批</b></button>※批量删除或强制追加</span><br>");
+	$(".frVjsk").append("<span><button id='zhui' class='"+class0+"'><b style='color:black;'>追</b></button>※强制追加选项</span><br>");
+	$(".frVjsk").append("<span><button id='check' class='"+class0+"'><b style='color:black;'>更</b></button>※检查更新</span><br>");
+	$(".frVjsk").append("<span><button id='refresh' class='"+class0+"'><b style='color:black;'>刷</b></button>※刷新页面</span><br>");
+	$(".frVjsk").append("<span><button id='clean' class='"+class0+"'><b style='color:black;'>清</b></button>※清除本地数据</span><br>");
+	
+},".frVjsk")
+//使用说明
+$('body').on('click',".jZKzYg",function()
+{
+	alert("此为基于原作者Raun0129开发的MolluTalk的个人改版\n"+
+		"MolluTalk的代码取得方式来自浏览器自带的Ctrl+S\n"+
+		"对于代码的改动地点均已用//#标注");
+});
+$('body').on('click',"#help",function()
+{
+	alert("※此为MolluTalk（作者Raun0129）的功能增强改版\n"+
+		"※当前版本为5.0，功能如下：\n"+
+		"	1.自定义角色的创造、删除、修改、备份、读取功能\n"+
+		"	2.自动保存功能升级，退出浏览器时存档不会消失\n"+
+		"	3.聊天记录长度和数据大小检测功能，到达一定程度会有警告提示\n"+
+		"	4.语言、文字发送方式、字体加载选项的更改功能\n"+
+		"	5.图片体积优化，修复了一个祖传的BUG，禁止了选择肢跳转\n"+
+		"	6.加入了批量删除和强制追加功能\n"+
+		"	7.额外添加了精简、极速、测试三种访问页面\n"+
+		"※如果有其他使用建议和错误请向我反馈");
+});
+//上传头像
+$('body').on('click',"#uphead",function()
+{
+	if($('#cusname').text() != '')
+	{
+		$("#cusname").text('');
+		$("#custom").click();
+	}		
+	else
+	{
+		alert('此功能为创建自定义角色时出现无法上传头像问题的解决方案\n如无无问题请不要点击');
+	}
+})
+//创建人物
+$('body').on('click',"#makecus",function()
+{
+	
+	let id;
+	let cus = prompt("请输入角色姓名，创建成功后需刷新页面确认\n"+
+		"如果名字中带空格，则聊天界面只显示第一个空格后的文字\n"+
+		"例：【砂狼 白子】=【白子】、【一一 四五 一四】=【四五】\n"+
+		"如果点击确认后未出现文件上传界面，请点击最上方的【傳】字按钮");
+
+	if(cus != null && cus.trim() != '')
+	{
+		if(cus.trim().indexOf(' ')<0)cus = ' '+cus;
+		if(localStorage['custom'])chararr = JSON.parse(localStorage['custom']);
+		else//如果没有自定义角色
+		{
+			chararr.push({
+			kr : "自创",
+			en : "CUSTOM",
+			jp : "自创",
+			zh_cn : "自创",
+			zh_tw : "自创",
+			club : [{
+				kr : "自创",
+				en : "自创",
+				jp : "自创",
+				zh_cn : "自创",
+				zh_tw : "自创",
+				characters : []
+				}]
+			})
+		}
+		char = chararr[0]['club'][0]['characters'];
+
+		if(char.length == 0)id = 1000;
+		else id = char[char.length-1]['no']+1;
+
+		char.push({
+			no : id,
+			kr : "(#"+(id-1000)+")"+cus,
+			en : "(#"+(id-1000)+")"+cus,
+			jp : "(#"+(id-1000)+")"+cus,
+			zh_cn : "(#"+(id-1000)+")"+cus,
+			zh_tw : "(#"+(id-1000)+")"+cus,
+			illust : 0,
+			profile : [1],
+			momotalk : true,
+			open : true
+		})
+		//console.log(chararr);
+		imgindex = id+".1";
+		$("#cusname").text(cus);
+		$("#custom").click();
+	}
+
+})
+//删除人物
+$('body').on('click',"#delcus",function()
+{
+	let id = prompt("请输入角色ID(#后面的纯数字)\n"+
+	"若想批量删除请用空格分隔，例:0 1 2 3 4 5\n"+
+	"需刷新页面来确认删除是否成功");
+	let arr = JSON.parse(localStorage['custom']);
+	if(!isNaN(parseInt(id)))
+	{
+		$.each(id.trim().split(" "),function(k,cusid)
+		{
+			cusid = parseInt(cusid)+1000;
+			$.each(arr[0]['club'][0]['characters'],function(k,i)
+			{
+				if($(this)[0]['no'] == cusid)arr[0]['club'][0]['characters'].splice(k,1);
+			})
+			delhead(cusid+'.1')
+			sessionStorage.removeItem(cusid);
+			localStorage['custom'] = JSON.stringify(arr);
+			//console.log(arr[0]['club'][0]['characters']);
+		})
+	}
+
+})
+//修改人物
+$('body').on('click',"#changecus",function()
+{
+	let id = parseInt($("#ccus").val());
+	if(!isNaN(id))
+	{
+		chararr = JSON.parse(localStorage['custom'])
+		let arr = JSON.parse(localStorage['custom'])[0]['club'][0]['characters'];
+		$.each(arr,function(k,i)
+		{
+			if($(this)[0]['no'] == id+1000)
+			{
+				let cname = prompt("如果点击确认后未出现文件上传界面，请点击最上方的【傳】字按钮\n若不上传头像那么则只修改角色名，当前角色名为：",$(this)[0]['zh_cn'].replace("(#"+id+")",'').trim());
+				if(cname != null && cname.trim() != '')
+				{
+					if(cname.trim().indexOf(' ')<0)cname = ' '+cname;
+
+					$(this)[0]['zh_cn'] = "(#"+id+")"+cname
+					chararr[0]['club'][0]['characters'] = arr;
+					//console.log(chararr[0]['club'][0]['characters'][id]);
+					imgindex = arr.indexOf($(this)[0])+1000+'.1';
+					$("#cusname").text($(this)[0]['zh_cn'].replace("(#"+id+")",'').trim());
+					localStorage['custom'] = JSON.stringify(chararr);//保存名字
+					$("#custom").click();
+				}
+				
+			}
+		})
+	}
+})
+//储存头像
+$("body").on('change','#custom',function()
+{
+	//文件改变时,获取文件,并转化为base64字符串
+	$("#cusname").text('');
+	var file = this.files[0]
+	$(this).val('')
+	var ready = new FileReader()
+	ready.readAsDataURL(file);
+	ready.onload = function(e)
+	{
+		var base64Img = e.target.result;
+		// console.log(base64Img)
+		compress(base64Img)
+	}
+})
+//保存人物
+$('body').on('click',"#savecus",function()
+{
+	if(!localStorage['custom']) return false;
+	alert('建议您确认所有头像都加载完毕再使用本功能，以确保保存的存档文件是完整的')
+	let arr = [];
+	arr[0] = localStorage['custom'];
+	arr[1] = {};
+	$.each(JSON.parse(localStorage['custom'])[0]['club'][0]['characters'],function(k,i)
+	{
+		console.log($(this)[0]['no']+'.1');
+		console.log(headarr[$(this)[0]['no']+'.1']);
+		arr[1][$(this)[0]['no']+'.1'] = headarr[$(this)[0]['no']+'.1'];
+	})
+	let time = new Date().toLocaleString().replaceAll('/','-').replaceAll(' ','_').replaceAll(':','-');
+	download_txt('MolluTalk自定义角色存档'+time+'.json',JSON.stringify(arr));//生成专用存档
+})
+//读取人物
+$('body').on('click',"#loadcus",function()
+{
+	$("#loadcusfile").click()
+})
+$('body').on('change',"#loadcusfile",function()
+{
+	let file = this.files[0];
+	let reader=new FileReader();
+	reader.readAsText(file);
+	reader.onload = function(e)
+	{
+		localStorage['custom'] = JSON.parse(this.result)[0];
+		$.each(JSON.parse(this.result)[1],function(k,i)
+		{
+			if(k.indexOf('.') == -1)k = k+'.'+1;//
+			savehead(k,i)
+		})
+		alert('需刷新页面确认读取成功')
+	}
+});
+//警告提醒
+$('body').on('click',"#warning",function()
+{
+	let wh = '';
+	let ws = '';
+	let wc = 0;
+	size = (JSON.stringify(localStorage).length/1024).toFixed(0);
+	height = $(".iBfcuf").height().toFixed(0);
+	if(height > 10000)wh = "聊天记录长度为"+height+"，超过10000可能会影响到聊天记录图片的生成\n";
+	if(size > 3000)ws = "本地存档数据大小为"+size+"KB，超过5120KB会使保存功能崩溃\n";
+	if(localStorage['last-viewed-version'])
+	{
+		if(localStorage['last-chat'])wc += localStorage['last-chat'].length
+		if(localStorage['last-viewed-version'])wc += localStorage['last-viewed-version'].length
+		if(localStorage['ds_state_ba'])wc += localStorage['ds_state_ba'].length
+		if(localStorage['custom-characters'])wc += localStorage['custom-characters'].length
+		if(localStorage['ds_state_custom'])wc += localStorage['ds_state_custom'].length
+		if(localStorage['ds_state_ak'])wc += localStorage['ds_state_ak'].length
+		if(localStorage['renderer'])wc += localStorage['renderer'].length
+		if(localStorage['rendererConfigs'])wc += localStorage['rendererConfigs'].length;
+		wc = "检测到ClosureTalk存档数据，数据大小为"+(wc/1024).toFixed(0)+"KB";
+	}
+	alert(wh+ws+wc);
+
+});
+//清除数据
+$("body").on('click','#clean',function()
+{
+	let cl = '';
+	if(localStorage['last-viewed-version'])cl = "※检测到ClosureTalk存档数据，如果确认的话你的ClosureTalk存档数据也会一并清除";
+	let msg = prompt("此操作会将你的所有存档数据一个不留的全部清除，如果你知道自己在干什么，请输入“确认清除”后点击确定\n"+cl);
+	if(msg == '确认清除')
+	{
+
+		deleteDBAll('MotherTalk');
+		localStorage.clear();
+		sessionStorage.clear();
+		window.location.reload();//刷新页面
+	}
+})
+//添加上传标签
+$("body").append("<input id='custom' hidden type='file' accept='image/*'>");
+$("body").append("<input id='loadcusfile' hidden type='file' accept='application/json'>");
+//修改人名
+$("body").on('click',".jRPwkT .bold",function()
+									{
+	$(this).attr("hidden","hidden");
+	$(this).before("<input value='"+$(this).text()+"'><button class='mingzi'>确定修改</button>");
+});
+$("body").on('click',".mingzi",function()
+{
+	text = $(this).siblings("input").val();
+	if(jQuery.trim(text) == 0)text = $(this).siblings("span").text();
+	$(this).siblings("span").removeAttr('hidden').text(text);
+	$(this).siblings("input").remove();
+	$(this).remove();
+
+});
+//修改羁绊事件
+$("body").on('click',".heJhGb .medium",function()
+{
+	$(this).attr("hidden","hidden");
+	$(this).before("<input value='"+$(this).text()+"'><button class='jiban'>确定修改</button>");
+});
+$("body").on('click',".jiban",function()
+{
+	text = $(this).siblings("input").val();
+	if(jQuery.trim(text) == 0)text = $(this).siblings("button").text();
+	$(this).siblings("button").removeAttr('hidden').text(text);
+	$(this).siblings("input").remove();
+	$(this).remove();
+});
+//修复祖传BUG
+$('body').on('click',".bDaxmX",function()
+{
+	if($(this).find('img').is('img') && first == 'first')
+	{
+		if($(this).find('img').attr('style') == 'display: block;')
+		{
+			$(this).parent().attr('style','padding: 0.5rem 1rem 0px;')//y
+			$(this).find('img').attr('style','display: none;')//y
+			$(this).next().find('span').eq(0).attr('style','display: none;')//y
+			$(this).next().find('div').find('span').eq(0).attr('class','talk__TextBox-sc-eq7cqw-4 talk__NTextBox-sc-eq7cqw-5 fWynih fYSjWX')
+		}
+		else
+		{
+			$(this).parent().attr('style','')
+			$(this).find('img').attr('style','display: block;')
+			$(this).next().find('span').eq(0).attr('style','height: 1.8rem; line-height: 1.5rem;')
+			$(this).next().find('div').find('span').eq(0).attr('class','talk__TextBox-sc-eq7cqw-4 fWynih')
+		}
+	}
+});
+$(".hfOSPu").wait(function()
+{
+	$.each(JSON.parse(localStorage['first']),function(k,v)
+	{
+		if(v == true)
+		{
+			$('.bDaxmX img:eq('+k+')').parent().parent().attr('style','')
+			$('.bDaxmX img:eq('+k+')').attr('style','display: block;')
+			$('.bDaxmX img:eq('+k+')').parent().next().find('span').eq(0).attr('style','height: 1.8rem; line-height: 1.5rem;')
+			$('.bDaxmX img:eq('+k+')').parent().next().find('div').find('span').eq(0).attr('class','talk__TextBox-sc-eq7cqw-4 fWynih')
+		}//console.log(v)
+		if(v == false)
+		{
+			$('.bDaxmX img:eq('+k+')').parent().parent().attr('style','padding: 0.5rem 1rem 0px;')//y
+			$('.bDaxmX img:eq('+k+')').attr('style','display: none;')//y
+			$('.bDaxmX img:eq('+k+')').parent().next().find('span').eq(0).attr('style','display: none;')//y
+			$('.bDaxmX img:eq('+k+')').parent().next().find('div').find('span').eq(0).attr('class','talk__TextBox-sc-eq7cqw-4 talk__NTextBox-sc-eq7cqw-5 fWynih fYSjWX')
+		}
+	})
+	first = 'first';
+},".hfOSPu")
+
+$('body').on('click',"#head",function()
+{
+	let head = prompt("头像以你底下的角色选择框第一个头像为准，请输入人名，不输入即为空");
+	let img = "<img src='"+$('.fzOyMd:eq(0)').attr('src')+"'class='common__Profile-sc-1ojome3-6 ekLMv rhead'>";
+	$('.dCYmqA').next().remove();$('.dCYmqA').next().remove();
+	if(head != null && head != '')
+	{
+		$('.dCYmqA').after("<span style='writing-mode:tb-rl;background:rgb(76,91,111);line-height:normal;'>"+head+"</span>",img)
+	}
+	else
+	{
+		$('.dCYmqA').after(img)
+	}
+})
+$('body').on('click','.rhead',function()
+{
+	if($(this).prev().is('span'))
+	{
+		$(this).prev().remove();
+		$(this).remove();
+	}
+})
+$('body').on('click',"#language",function()
+{
+	let lang = prompt("请输入想更改的语言：kr(韩语)、jp(日语)、en(英语)、zh_cn(简体中文)、zh_tw(繁体中文)", "zh_cn");
+	if (lang != null)
+	{
+		alert('更改完成，请刷新页面!');
+		localStorage['lang'] = lang;
+	}
+})
+$('body').on('click',"#send",function()
+{
+	if(!localStorage['send'])
+	{
+		if(confirm('当前发送方式为点击按钮发送，是否换为回车发送？'))
+		{
+			localStorage['send'] = 'enter';
+			$('.juTGbm:eq(1)').attr('onkeydown',"if(event.keyCode === 13)event.preventDefault();");
+		}
+	}
+	else
+	{
+		if(confirm('当前发送方式为回车发送，是否换为点击按钮发送？'))
+		{
+			localStorage.removeItem('send');
+			$('.juTGbm:eq(1)').removeAttr('onkeydown');
+		}
+	}
+})
+$("body").keyup(function(event)
+{
+	if(event.keyCode == 13 && localStorage['send'] == 'enter')
+	{
+		$("[title='send']").click();
+	}
+});
+$('body').on('click',"#font",function()
+{
+	if(!localStorage['nofont']){if(confirm('是否取消加载字体文件？取消可以优化页面加载时间\n确认后请刷新页面')){localStorage['nofont'] = true;}}
+	else{if(confirm('是否恢复加载字体文件？恢复可以使页面布局更美观\n确认后请刷新页面')){localStorage.removeItem('nofont');}}
+})
+$('body').on('click',"#formal",function()
+{
+	if(confirm('点击“确认”跳转\nhttps://ggg555ttt.gitee.io/mothertalk/')){window.location.replace(window.location.href)}
+})
+$('body').on('click',"#fast",function()
+{
+	if(confirm('是否确认进入极速版网页？\n极速版将图片保存到本地数据库，节省了网络加载时间，但对设备性能可能有一定要求\nhttps://ggg555ttt.gitee.io/mothertalk/fast.html'))
+	{
+		window.location.replace(window.location.href+'fast.html')
+	}
+})
+$('body').on('click',"#lite",function()
+{
+	if(confirm('是否确认进入精简版网页？\n精简版只加载了重要文件，需要自创学生\nhttps://ggg555ttt.gitee.io/mothertalk/lite.html'))
+	{
+		window.location.replace(window.location.href+'lite.html')
+	}
+})
+$('body').on('click',"#test",function()
+{
+	if(confirm('是否确认进入测试版网页？\n测试版更改了文件的读取地址，稳定性未知\nhttps://ggg555ttt.gitee.io/mothertalk/test.html'))
+	{
+		window.location.replace(window.location.href+'test.html')
+	}
+})
+
+$('body').on('click',"#dels",function()
+{
+	if($(".dels:checked").length == 0)
+	{
+		if($('.dels').attr('hidden') == 'hidden'){$('.dels').removeAttr('hidden')}
+		else{$('.dels').attr('hidden','hidden')}
+	}
+	if($(".dels:checked").length == 1)
+	{
+		let chat = prompt("您只选择了一条数据，判断为强制追加，请输入您想在该位置强制追加的文本\n"+
+			"成功提交后会马上刷新页面，发言人物以你底下被选中的头像为准，可以设置差分头像\n"+
+			"例：3#文本内容（3是你的差分头像序号，序号和文本内容之间需要用#分隔，可以不输入序号）");
+		if(chat != null && chat.trim() != '')
+		{
+			let no = $(".jjPyvz .selected").attr('alt');if(no == 'sensei')no = 0;
+			let zhui = 1;if(localStorage['zhui'])zhui = 0;
+			chat = chat.trim().split("#");if(chat.length == 1){chat0 = 1;chat1 = chat[0];}
+			if(chat.length == 2){chat0 = chat[0];if(chat0.trim() == '')chat0 = 1;chat1 = chat[1];}
+			if(chat1.trim() != '' && chat.length < 3 && !isNaN(parseInt(chat0)))
+			{
+				let arr = JSON.parse(localStorage['chats']);
+				arr.splice($('.dels').index($(".dels:checked"))+zhui,0,{type:"chat",content:chat1,replyDepth:0,replyNo:0,replyGroup:0,sCharacter:{no:parseInt(no),index:parseInt(chat0)}})
+				localStorage['chats'] = JSON.stringify(arr);
+				alert('追加完成，即将刷新页面')
+				window.location.reload();//刷新页面
+			}
+		}
+	}
+	if($(".dels:checked").length > 1)
+	{
+		if(confirm('你一共选中了'+$(".dels:checked").length+'条数据\n点击确认后会马上删除并刷新页面，确定吗？'))
+		{
+			let arr = JSON.parse(localStorage['chats']);let i = 0;
+			$(".dels:checked").each(function(){arr.splice($('.dels').index($(this))-i,1);i++})
+			localStorage['chats'] = JSON.stringify(arr);
+			alert('删除完成，即将刷新页面')
+			window.location.reload();//刷新页面
+		}
+	}
+})
+$('body').on('click',"#zhui",function()
+{
+	if(!localStorage['zhui']){if(confirm('向前强制追加？')){localStorage['zhui'] = 'qian';}}
+	else{if(confirm('向后强制追加？')){localStorage.removeItem('zhui');}}
+})
+$('body').on('click',"#check",function()
+{
+	$.get("https://ghproxy.com/https://raw.githubusercontent.com/ggg555ttt/MolluTalk/main/check.json",function(data) 
+	{
+		data = JSON.parse(data)
+		alert(data[0])
+	});
+})
+$('body').on('click',"#refresh",function(){if(confirm('是否刷新页面？')){window.location.reload();}})//刷新页面
+
+//屏蔽选项跳转操作
+document.addEventListener("click", handler, true);
+function handler(e)
+{
+	let class1 = "ReplyButtonBox__Span-sc-15gyqnr-2 dyLBbx medium";
+	let class2 = "common__Button-sc-1ojome3-8 common__SubmitButton-sc-1ojome3-9 talk__ReplyButton-sc-eq7cqw-11 cVRiXh eIEKpg evqKja";
+	if(e.target.className == class1 || e.target.className == class2){e.stopPropagation();e.preventDefault();}
+}

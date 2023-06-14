@@ -494,7 +494,7 @@ $('body').on('click',"#font",function()
 })
 $('body').on('click',"#formal",function()
 {
-	if(confirm('点击“确认”跳转\nhttps://ggg555ttt.gitee.io/mothertalk/')){window.location.replace(window.location.href)}
+	if(confirm('点击“确认”跳转\nhttps://ggg555ttt.gitee.io/mothertalk/')){window.location.replace('https://ggg555ttt.gitee.io/mothertalk/')}
 })
 $('body').on('click',"#fast",function()
 {

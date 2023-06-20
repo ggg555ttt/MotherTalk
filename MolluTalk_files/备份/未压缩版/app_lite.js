@@ -9311,6 +9311,35 @@
                 "use strict";
                 let arr = JSON.parse('[]');
                 if(localStorage['custom'])arr.push(JSON.parse(localStorage['custom'])[0]);
+                if(localStorage['mark'] && localStorage['quick'])
+                {
+                    let quick = JSON.parse(localStorage['quick']);
+                    let len = quick.length;
+                    for(let num=0;num<len;num++)
+                    {
+                        let len1 = arr.length;
+                        for(let num1=0;num1<len1;num1++)
+                        {
+                            let club = arr[num1]['club'];
+                            let len2 = club.length;
+                            for(let num2=0;num2<len2;num2++)
+                            {
+                                let characters = club[num2]['characters'];
+                                let len3 = characters.length;
+                                for(let num3=0;num3<len3;num3++)
+                                {
+                                    if(quick[num] == characters[num3]['no'])
+                                    {
+                                        name = characters[num3]['zh_cn'];
+                                        if(name.trim().indexOf(' ')<0)name = ' '+name;
+                                        characters[num3]['zh_cn'] = '@'+name;
+                                    }
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
                 n.d(t,
                 {
                     Z: function()
@@ -9568,7 +9597,12 @@
                             i = o.split(" ")[1] || o.replaceAll("-", " "), a = s.split(" ")[1] || s.replaceAll("-", " ")
                         }
                         else i = e[n.sortCharType][r], a = t[n.sortCharType][r];
-                        return (i = i.toLowerCase(), a = a.toLowerCase(), n.order) ? i < a ? -1 : i > a ? 1 : 0 : i < a ? 1 : i > a ? -1 : 0
+                        if(localStorage['order'])
+                        {
+                            i = e['no'],a = t['no'];
+                            return (i , a , n.order) ? i < a ? -1 : i > a ? 1 : 0 : i < a ? 1 : i > a ? -1 : 0
+                        }
+                        else return (i = i.toLowerCase(), a = a.toLowerCase(), n.order) ? i < a ? -1 : i > a ? 1 : 0 : i < a ? 1 : i > a ? -1 : 0//*
                     },
                     v = function(e, t)
                     {

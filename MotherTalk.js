@@ -1,3 +1,9 @@
+//https://try8.cn/tool/format/js
+var version = '5.1';
+$.get("https://ghproxy.com/https://raw.githubusercontent.com/ggg555ttt/MolluTalk/main/check.json",function(data) 
+{
+	if(data > version)alert('最新版本为：'+data+'\n请尝试清除浏览器缓存数据以访问最新版本')
+});
 var first;
 if(!localStorage['first'])localStorage['first'] = '[]';
 if(!localStorage['chats'])localStorage['chats'] = '[]';
@@ -12,10 +18,10 @@ if(!localStorage['nofont'])
 //版本判断
 $('.Header__Title-sc-17b1not-2.jZKzYg').wait(function()
 {
-	$(this).text("MotherTalk5.0");//正式版
-	if(getCurentFileName() == 'fast.html')$(this).html("MotherTalk<span style='color:red;'>Fast</span>5.0");//极速版
-	if(getCurentFileName() == 'lite.html')$(this).html("MotherTalk<span style='color:red;'>Lite</span>5.0");//精简版
-	if(getCurentFileName() == 'test.html')$(this).html("MotherTalk<span style='color:red;'>Test</span>5.0");//原版
+	$(this).text("MotherTalk"+version);//正式版
+	if(getCurentFileName() == 'fast.html')$(this).html("MotherTalk<span style='color:red;'>Fast</span>"+version);//极速版
+	if(getCurentFileName() == 'lite.html')$(this).html("MotherTalk<span style='color:red;'>Lite</span>"+version);//精简版
+	if(getCurentFileName() == 'test.html')$(this).html("MotherTalk<span style='color:red;'>Test</span>"+version);//原版
 },'.Header__Title-sc-17b1not-2.jZKzYg')
 
 //极速版专用
@@ -101,19 +107,20 @@ $(".frVjsk").wait(function()
 	$(".frVjsk").append("<span><button id='makecus' class='"+class0+"'><b style='color:red;'>創</b></button>※创建自定义角色</span><br>");
 	$(".frVjsk").append("<span><button id='delcus' class='"+class0+"'><b style='color:red;'>刪</b></button>※删除自定义角色</span><br>");
 	$(".frVjsk").append("<span><button id='changecus' class='"+class0+"'><b style='color:red;'>改</b></button>※更改角色信息※请输入角色ID：↓<input size='5' id='ccus'/><br></span><br>");
-	$(".frVjsk").append("<span><button id='savecus' class='"+class0+"'><b style='color:green;'>備</b></button>※备份自定义角色存档</span><br>");
-	$(".frVjsk").append("<span><button id='loadcus' class='"+class0+"'><b style='color:green;'>恢</b></button>※恢复自定义角色存档</span><br>");
-	$(".frVjsk").append("<span><button id='head' class='"+class0+"'><b style='color:blue;'>頭</b></button>※右侧添加头像</span><br>");
+	$(".frVjsk").append("<span><button id='savecus' class='"+class0+"'><b style='color:rgb(139,187,233);'>備</b></button>※备份自定义角色存档</span><br>");
+	$(".frVjsk").append("<span><button id='loadcus' class='"+class0+"'><b style='color:rgb(139,187,233);'>恢</b></button>※恢复自定义角色存档</span><br>");
 	$(".frVjsk").append("<span><button id='language' class='"+class0+"'><b style='color:blue;'>語</b></button>※更改语言</span><br>");
 	$(".frVjsk").append("<span><button id='send' class='"+class0+"'><b style='color:blue;'>發</b></button>※文字发送方式</span><br>");
 	$(".frVjsk").append("<span><button id='font' class='"+class0+"'><b style='color:blue;'>字</b></button>※字体加载选项</span><br>");
+	$(".frVjsk").append("<span><button id='order' class='"+class0+"'><b style='color:blue;'>序</b></button>※角色排序方式</span><br>");
+	$(".frVjsk").append("<span><button id='mark' class='"+class0+"'><b style='color:blue;'>標</b></button>※标记最近使用的角色</span><br>");
 	$(".frVjsk").append("<span><button id='formal' class='"+class0+"'><b style='color:green;'>正</b></button>※访问正式版</span><br>");
 	$(".frVjsk").append("<span><button id='fast' class='"+class0+"'><b style='color:green;'>速</b></button>※访问极速版</span><br>");
 	$(".frVjsk").append("<span><button id='lite' class='"+class0+"'><b style='color:green;'>簡</b></button>※访问精简版</span><br>");
 	$(".frVjsk").append("<span><button id='test' class='"+class0+"'><b style='color:green;'>測</b></button>※访问测试版</span><br>");
+	$(".frVjsk").append("<span><button id='head' class='"+class0+"'><b style='color:black;'>頭</b></button>※右侧添加头像</span><br>");
 	$(".frVjsk").append("<span><button id='dels' class='"+class0+"'><b style='color:black;'>批</b></button>※批量删除或强制追加</span><br>");
 	$(".frVjsk").append("<span><button id='zhui' class='"+class0+"'><b style='color:black;'>追</b></button>※强制追加选项</span><br>");
-	$(".frVjsk").append("<span><button id='check' class='"+class0+"'><b style='color:black;'>更</b></button>※检查更新</span><br>");
 	$(".frVjsk").append("<span><button id='refresh' class='"+class0+"'><b style='color:black;'>刷</b></button>※刷新页面</span><br>");
 	$(".frVjsk").append("<span><button id='clean' class='"+class0+"'><b style='color:black;'>清</b></button>※清除本地数据</span><br>");
 	
@@ -128,7 +135,7 @@ $('body').on('click',".jZKzYg",function()
 $('body').on('click',"#help",function()
 {
 	alert("※此为MolluTalk（作者Raun0129）的功能增强改版\n"+
-		"※当前版本为5.0，功能如下：\n"+
+		"※当前版本为"+version+"，功能如下：\n"+
 		"	1.自定义角色的创造、删除、修改、备份、读取功能\n"+
 		"	2.自动保存功能升级，退出浏览器时存档不会消失\n"+
 		"	3.聊天记录长度和数据大小检测功能，到达一定程度会有警告提示\n"+
@@ -136,6 +143,7 @@ $('body').on('click',"#help",function()
 		"	5.图片体积优化，修复了一个祖传的BUG，禁止了选择肢跳转\n"+
 		"	6.加入了批量删除和强制追加功能\n"+
 		"	7.额外添加了精简、极速、测试三种访问页面\n"+
+		"	8.添加了角色排序方式的更改功能和最近使用角色的标记功能\n"+
 		"※如果有其他使用建议和错误请向我反馈");
 });
 //上传头像
@@ -492,6 +500,11 @@ $('body').on('click',"#font",function()
 	if(!localStorage['nofont']){if(confirm('是否取消加载字体文件？取消可以优化页面加载时间\n确认后请刷新页面')){localStorage['nofont'] = true;}}
 	else{if(confirm('是否恢复加载字体文件？恢复可以使页面布局更美观\n确认后请刷新页面')){localStorage.removeItem('nofont');}}
 })
+$('body').on('click',"#order",function()
+{
+	if(!localStorage['order']){if(confirm('当前排序方式为默认排序\n是否将角色排序方式改为按ID排序？\n自创角色会排在最末尾')){localStorage['order'] = true;}}
+	else{if(confirm('当前排序方式为按ID排序\n是否将角色排序方式还原为默认排序？')){localStorage.removeItem('order');}}
+})
 $('body').on('click',"#formal",function()
 {
 	if(confirm('点击“确认”跳转\nhttps://ggg555ttt.gitee.io/mothertalk/')){window.location.replace('https://ggg555ttt.gitee.io/mothertalk/')}
@@ -563,14 +576,7 @@ $('body').on('click',"#zhui",function()
 	if(!localStorage['zhui']){if(confirm('向前强制追加？')){localStorage['zhui'] = 'qian';}}
 	else{if(confirm('向后强制追加？')){localStorage.removeItem('zhui');}}
 })
-$('body').on('click',"#check",function()
-{
-	$.get("https://ghproxy.com/https://raw.githubusercontent.com/ggg555ttt/MolluTalk/main/check.json",function(data) 
-	{
-		data = JSON.parse(data)
-		alert(data[0])
-	});
-})
+
 $('body').on('click',"#refresh",function(){if(confirm('是否刷新页面？')){window.location.reload();}})//刷新页面
 
 //屏蔽选项跳转操作
@@ -581,3 +587,34 @@ function handler(e)
 	let class2 = "common__Button-sc-1ojome3-8 common__SubmitButton-sc-1ojome3-9 talk__ReplyButton-sc-eq7cqw-11 cVRiXh eIEKpg evqKja";
 	if(e.target.className == class1 || e.target.className == class2){e.stopPropagation();e.preventDefault();}
 }
+$('body').on('click',"#mark",function()
+{
+	if(localStorage['mark'])num = "\n当前标记数量上限为："+localStorage['mark']
+	else num = '';
+	let mark = prompt("请输入想要标记的角色数量上限，点击取消或空值为不标记\n被标记的角色名字前面会多一个“@”，用来快速检索"+num);
+	if(!isNaN(mark) && mark != null && mark.trim() != '')localStorage['mark'] = mark.trim()
+	else
+	{
+		localStorage.removeItem('mark')
+		localStorage.removeItem('quick')
+	}
+
+})
+$('body').on('click',".fuyFOl",function()
+{
+	if(localStorage['mark'])
+	{
+		let quick = [];
+		if(localStorage['quick'])quick = JSON.parse(localStorage['quick']);
+		alt = $(this).attr('alt');
+		if($(".jotOXZ:eq(1)").attr('style') == "display: none;" && alt != 'sensei')
+		{
+			quick.unshift(alt);
+			quick = Array.from(new Set(quick))
+			if(quick.length > localStorage['mark'])quick = quick.slice(0,localStorage['mark']);
+			localStorage['quick'] = JSON.stringify(quick);
+			console.log(quick);
+			//localStorage['first'] = JSON.stringify(arr)
+		}
+	}
+})

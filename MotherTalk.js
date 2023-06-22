@@ -171,7 +171,8 @@ $('body').on('click',"#makecus",function()
 
 	if(cus != null && cus.trim() != '')
 	{
-		if(cus.trim().indexOf(' ')<0)cus = ' '+cus;
+		cus = cus.trim();
+		if(cus.indexOf(' ')<0)cus = ' '+cus;
 		if(localStorage['custom'])chararr = JSON.parse(localStorage['custom']);
 		else//如果没有自定义角色
 		{

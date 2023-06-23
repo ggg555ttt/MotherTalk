@@ -1799,10 +1799,36 @@
 										}).then(function(e)
 										{
 											var n, t = e.toDataURL("image/png");
-											j(t), null === (n = I.current) || void 0 === n || n.setAttribute("src", t), e.toBlob(function(e)
+											//*加入水印功能，大改
+											if(localStorage['wmark'])
 											{
-												e && (0, ef.saveAs)(e, "MolluTalk_" + ("" !== _ ? _ : F.Z.noTitle[g] + ".png"))
-											})
+												let arr = JSON.parse(localStorage['wmark']);
+												drawWaterMark.init(
+												{
+										            imgpath: t,//图片路径  string类型  [必传]
+										            rotate: arr[0],//旋转角度   int类型
+										            fontsize: arr[1],//字体大小
+										            fontcolor: arr[2]+","+arr[3]+","+arr[4]+","+arr[5],//字体颜色  rgba类型
+										            density: arr[6],//稠密度
+										            str: arr[7].split(" "),    //[必传]
+										            //domid: "drowsy",//图片id
+										            cb: function(base64)
+										            {
+										            	//console.log(base64)
+										            	j(base64), null === (n = I.current) || void 0 === n || n.setAttribute("src",base64), e.toBlob(function(e)
+														{
+															e && (0, ef.saveAs)(e, "MolluTalk_" + ("" !== _ ? _ : F.Z.noTitle[g] + ".png"))
+														})
+										            }
+	    										})
+											}
+											else
+											{
+												j(t), null === (n = I.current) || void 0 === n || n.setAttribute("src", t), e.toBlob(function(e)
+												{
+													e && (0, ef.saveAs)(e, "MolluTalk_" + ("" !== _ ? _ : F.Z.noTitle[g] + ".png"))
+												})
+											}
 										}).catch(function()
 										{
 											p((0, er.Y2)(

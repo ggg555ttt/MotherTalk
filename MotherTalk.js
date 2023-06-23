@@ -1,5 +1,5 @@
 //https://try8.cn/tool/format/js
-var version = '5.1';
+var version = '5.2';
 $.get("https://ghproxy.com/https://raw.githubusercontent.com/ggg555ttt/MolluTalk/main/check.json",function(data) 
 {
 	if(data > version)alert('最新版本为：'+data+'\n请尝试清除浏览器缓存数据以访问最新版本')
@@ -118,6 +118,7 @@ $(".frVjsk").wait(function()
 	$(".frVjsk").append("<span><button id='fast' class='"+class0+"'><b style='color:green;'>速</b></button>※访问极速版</span><br>");
 	$(".frVjsk").append("<span><button id='lite' class='"+class0+"'><b style='color:green;'>簡</b></button>※访问精简版</span><br>");
 	$(".frVjsk").append("<span><button id='test' class='"+class0+"'><b style='color:green;'>測</b></button>※访问测试版</span><br>");
+	$(".frVjsk").append("<span><button id='wmark' class='"+class0+"'><b style='color:black;'>印</b></button>※设置水印参数</span><br>");
 	$(".frVjsk").append("<span><button id='head' class='"+class0+"'><b style='color:black;'>頭</b></button>※右侧添加头像</span><br>");
 	$(".frVjsk").append("<span><button id='dels' class='"+class0+"'><b style='color:black;'>批</b></button>※批量删除或强制追加</span><br>");
 	$(".frVjsk").append("<span><button id='zhui' class='"+class0+"'><b style='color:black;'>追</b></button>※强制追加选项</span><br>");
@@ -130,7 +131,7 @@ $('body').on('click',".jZKzYg",function()
 {
 	alert("此为基于原作者Raun0129开发的MolluTalk的个人改版\n"+
 		"MolluTalk的代码取得方式来自浏览器自带的Ctrl+S\n"+
-		"对于代码的改动地点均已用//#标注");
+		"对于代码的改动地点均已用//#与//*标注");
 });
 $('body').on('click',"#help",function()
 {
@@ -144,6 +145,7 @@ $('body').on('click',"#help",function()
 		"	6.加入了批量删除和强制追加功能\n"+
 		"	7.额外添加了精简、极速、测试三种访问页面\n"+
 		"	8.添加了角色排序方式的更改功能和最近使用角色的标记功能\n"+
+		"	9.新增了为图片添加水印功能，可以设置相关参数\n"+
 		"※如果有其他使用建议和错误请向我反馈");
 });
 //上传头像
@@ -255,7 +257,8 @@ $('body').on('click',"#changecus",function()
 				let cname = prompt("如果点击确认后未出现文件上传界面，请点击最上方的【傳】字按钮\n若不上传头像那么则只修改角色名，当前角色名为：",$(this)[0]['zh_cn'].replace("(#"+id+")",'').trim());
 				if(cname != null && cname.trim() != '')
 				{
-					if(cname.trim().indexOf(' ')<0)cname = ' '+cname;
+					cname = cname.trim();
+					if(cname.indexOf(' ')<0)cname = ' '+cname;
 
 					$(this)[0]['zh_cn'] = "(#"+id+")"+cname
 					chararr[0]['club'][0]['characters'] = arr;
@@ -617,5 +620,12 @@ $('body').on('click',".fuyFOl",function()
 			console.log(quick);
 			//localStorage['first'] = JSON.stringify(arr)
 		}
+	}
+})
+$('body').on('click',"#wmark",function()
+{
+	if(confirm('是否进入水印参数设置页面？\n设置完成后返回MotherTalk生成聊天图片就可以看到带水印的图片\n带水印的图片无法自动下载，需要手动保存'))
+	{
+		window.location.replace(window.location.href+'wmark.html')
 	}
 })

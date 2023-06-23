@@ -244,4 +244,63 @@ function getCurentFileName()
 	var pagePathName= window.location.pathname;
 	return pagePathName.substring(pagePathName.lastIndexOf("/") + 1);
 }
-/*函数库*/
+var drawWaterMark = {};
+drawWaterMark.init = function (objmsg) {
+	var canvas = document.createElement('canvas');
+	var ctx = canvas.getContext('2d');
+	var img = new Image();
+	img.src = objmsg.imgpath;
+	img.setAttribute("crossOrigin", 'Anonymous');
+	img.onload = function () {
+		//绘制和图片大小相同的canvas
+		canvas.width = img.width;
+		canvas.height = img.height;
+		//canvas绘制图片，0 0  为左上角坐标原点
+		ctx.drawImage(img, 0, 0);
+		//绘制水印
+		if (objmsg.rotate != undefined && objmsg.rotate != null) {//旋转角度[默认20]
+			ctx.rotate((Math.PI / 120) * -objmsg.rotate);
+		} else {
+			ctx.rotate((Math.PI / 120) * -20);
+		}
+		var fontsize = 20;
+		if (objmsg.fontsize != undefined && objmsg.fontsize != null) {//字体大小[默认20px]
+			fontsize = objmsg.fontsize;
+		}
+		ctx.font = "bold "+fontsize+"px Microsoft Yahei";
+		var fontcolor = '255, 255, 255, 0.2';
+		if (objmsg.fontcolor != undefined && objmsg.fontcolor != null) {//字体颜色透明度[默认白色]
+			fontcolor = objmsg.fontcolor;
+		}
+		ctx.fillStyle = "rgba(" + fontcolor + ")";
+		ctx.textAlign = "center";
+		ctx.textBaseline = "middle";
+		var density = 3;
+		if (objmsg.density != undefined && objmsg.density != null) {//稠密度[默认3]
+			density = objmsg.density
+		}
+		for (var i = -1000; i < img.height; i += img.width / density) {
+			for (var k = 0; k < img.height; k += img.width / density) {
+				var str = objmsg.str;
+				if (str.length == 1) {
+					ctx.fillText(str[0], i, k);
+				} else if(str.length==2){
+					ctx.fillText(str[0], i, k);
+					ctx.fillText(str[1], i, k + (fontsize-0+5));//多行
+				} else if (str.length == 3 || str.length > 3) {
+					ctx.fillText(str[0], i, k);
+					ctx.fillText(str[1], i, k + (fontsize - 0 + 5));//多行
+					ctx.fillText(str[2], i, k + (fontsize*2 - 0 + 5));//多行
+				}
+			}
+		}
+		var base64 = canvas.toDataURL("image/png");//添加过水印的base64图片
+		if (objmsg.domid != undefined && objmsg.domid != null) {//id图片
+			document.getElementById(objmsg.domid).src = base64;
+			//$(objmsg.domid).attr('src', base64);
+		}
+		if (objmsg.cb != undefined && objmsg.cb != null) {//回调函数
+			objmsg.cb(base64);//回调函数
+		}
+	}
+}

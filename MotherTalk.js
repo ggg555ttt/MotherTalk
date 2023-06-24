@@ -463,6 +463,10 @@ $('body').on('click','.rhead',function()
 		$(this).prev().remove();
 		$(this).remove();
 	}
+	else
+	{
+		$(this).remove();
+	}
 })
 $('body').on('click',"#language",function()
 {

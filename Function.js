@@ -3,8 +3,12 @@ var imgindex;var text;//人物自定义
 var headarr = [];//头像储存
 var chararr = [];//自定义角色列表
 var height;//聊天记录长度
+var first;
 var size = (JSON.stringify(localStorage).length/1024).toFixed(0);//数据大小
-var heads = 0;
+if(!localStorage['heads'])localStorage['heads'] = '[{}]';
+if(!localStorage['first'])localStorage['first'] = '[]';
+if(!localStorage['chats'])localStorage['chats'] = '[]';
+if(!localStorage['lang'])localStorage['lang'] = 'zh_cn';
 $.each(sessionStorage,function(k,i)
 {
 	headarr[i] = sessionStorage[k];
@@ -78,6 +82,7 @@ function updateDB(db, storeName, data) {
 	.put(data);
 
 	request.onsuccess = function () {
+		localStorage['imgs']++;
 	//console.log("数据更新成功");
 	};
 
@@ -119,55 +124,103 @@ function deleteDBAll(dbName) {
 //保存头像
 function savehead(headindex,img64)
 {
-	let db;
-	openDB('MotherTalk').then((db =>
-	{
-		db = db;
-		let data =
-		{
-			key : headindex,//唯一
-			val : img64
-		}
-		if((JSON.stringify(sessionStorage).length/1048576).toFixed(2) < 4.9)sessionStorage[headindex] = img64;
-		updateDB(db,'Custom', data)
-		if(headindex < 999)localStorage['imgs']++;
-		closeDB(db)//关闭数据库
-	}))
+	let headarr = JSON.parse(localStorage['heads']);
+	headarr[0][headindex] = img64;
+	localStorage['heads'] = JSON.stringify(headarr);
+	// let db;
+	// openDB('MotherTalk').then((db =>
+	// {
+	// 	db = db;
+	// 	let data =
+	// 	{
+	// 		key : headindex,//唯一
+	// 		val : img64
+	// 	}
+	// 	if((JSON.stringify(sessionStorage).length/1048576).toFixed(2) < 4.9)sessionStorage[headindex] = img64;
+	// 	updateDB(db,'Custom', data)
+	// 	if(headindex < 999)localStorage['imgs']++;
+	// 	closeDB(db)//关闭数据库
+	// }))
 }
 //读取头像
 function loadhead(imgindex)
 {
-	let db;
-	openDB('MotherTalk').then((db =>
-	{
-		db = db;
-		getDataByKey(db,'Custom',imgindex).then((arr =>
+	if(JSON.parse(localStorage['heads'])[0] && JSON.parse(localStorage['heads'])[0][imgindex])
+	{//自定义头像
+		return JSON.parse(localStorage['heads'])[0][imgindex];
+	}
+	else
+	{//本地头像
+		let image = 'char/';
+		if(parseInt(imgindex).toFixed(0) == '199')image = 'emoji/';
+		image = image+imgindex+(localStorage['png'] ? localStorage['png'] : '.webp');
+		if(localStorage['png'] == '.png')return image;
+		if(!headarr[imgindex])
 		{
-			if((JSON.stringify(sessionStorage).length/1048576).toFixed(2) > 4.9)
+			let db;
+			openDB('MotherTalk').then((db =>
 			{
-				headarr[imgindex] = arr['val'];
-			}
-			else 
-			{
-				//console.log((JSON.stringify(sessionStorage).length/1048576).toFixed(2))
-				if(imgindex < 199)sessionStorage[imgindex] = arr['val'];
-				headarr[imgindex] = arr['val'];
-			}
+				db = db;
+				getDataByKey(db,'Custom',imgindex).then((arr =>
+				{
+					if((JSON.stringify(sessionStorage).length/1048576).toFixed(2) > 4.9)
+					{
+						let n = 1;
+						$.each(sessionStorage,function(k,v)
+						{
+							if(n <= 10)sessionStorage.removeItem(k);n++;
+						})
+						headarr[imgindex] = 'data:image/webp;base64,'+arr['val'];
+					}
+					else 
+					{
+						sessionStorage[imgindex] = 'data:image/webp;base64,'+arr['val'];
+						headarr[imgindex] = 'data:image/webp;base64,'+arr['val'];
+					}
+				}))
+				closeDB(db)//关闭数据库
+			}))
+		}
+		else
+		{
+			image = headarr[imgindex];
+		}
+		return image;
+	}
+	// let db;
+	// openDB('MotherTalk').then((db =>
+	// {
+	// 	db = db;
+	// 	getDataByKey(db,'Custom',imgindex).then((arr =>
+	// 	{
+	// 		if((JSON.stringify(sessionStorage).length/1048576).toFixed(2) > 4.9)
+	// 		{
+	// 			headarr[imgindex] = arr['val'];
+	// 		}
+	// 		else 
+	// 		{
+	// 			//console.log((JSON.stringify(sessionStorage).length/1048576).toFixed(2))
+	// 			if(imgindex < 199)sessionStorage[imgindex] = arr['val'];
+	// 			headarr[imgindex] = arr['val'];
+	// 		}
 			
-		}))
-		closeDB(db)//关闭数据库
-	}))
-	return '';
+	// 	}))
+	// 	closeDB(db)//关闭数据库
+	// 	return '';
+	// }))
 }
 //删除头像
 function delhead(imgindex)
 {
-	let db;
-	openDB('MotherTalk').then((db =>
-	{
-		deleteDB(db,'Custom',imgindex)
-		closeDB(db)//关闭数据库
-	}))
+	let headarr = JSON.parse(localStorage['heads']);
+	delete headarr[0][imgindex];
+	localStorage['heads'] = JSON.stringify(headarr);
+	// let db;
+	// openDB('MotherTalk').then((db =>
+	// {
+	// 	deleteDB(db,'Custom',imgindex)
+	// 	closeDB(db)//关闭数据库
+	// }))
 }
 //元素出现后执行代码
 jQuery.fn.wait = function (func,cls,times,interval) {
@@ -201,13 +254,18 @@ function compress(base64Img)
 	img.src = base64Img;//图片对象添加图片地址
 	img.onload = function()//图片地址加载完后执行操作
 	{
+		w = img.width;
+        h = img.height;
+        n = localStorage['hnum'] ? localStorage['hnum'] : 300;
+		a = Math.min(1, n / w);
+        (w *= a), (h *= a);
 		//开始画压缩图
 		var canvas = document.createElement("canvas");
 		var ctx = canvas.getContext("2d");
-		canvas.width = 252;//压缩图的宽度
-		canvas.height = 252;//压缩图的高度
-		ctx.drawImage(img,0,0,252,252);
-		var newBase64 = canvas.toDataURL("image/jpeg");
+		canvas.width = w;//压缩图的宽度
+		canvas.height = h;//压缩图的高度
+		ctx.drawImage(img,0,0,w,h);
+		var newBase64 = canvas.toDataURL("image/webp");
 
 		localStorage['custom'] = JSON.stringify(chararr);
 		savehead(imgindex,newBase64)

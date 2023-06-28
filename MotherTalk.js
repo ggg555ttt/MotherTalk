@@ -1,45 +1,40 @@
 //https://try8.cn/tool/format/js
-var version = '5.2';
+var version = '5.3';
 $.get("https://ghproxy.com/https://raw.githubusercontent.com/ggg555ttt/MolluTalk/main/check.json",function(data) 
 {
 	if(data > version)alert('最新版本为：'+data+'\n请尝试清除浏览器缓存数据以访问最新版本')
 });
-var first;
-if(!localStorage['first'])localStorage['first'] = '[]';
-if(!localStorage['chats'])localStorage['chats'] = '[]';
-if(!localStorage['lang'])localStorage['lang'] = 'zh_cn';
-
-//字体加载选项
-if(!localStorage['nofont'])
+var font = "<link rel='stylesheet' href='./MolluTalk_files/font_web.css' data-n-g=''>";
+if(window.location.host == 'localhost' || window.location.host == '127.0.0.1')
 {
-	if(getCurentFileName() == 'test.html')$("head").append("<link rel='stylesheet' href='./MolluTalk_files/style_test.css' data-n-g=''>");
-	else $("head").append("<link rel='stylesheet' href='./MolluTalk_files/style.css' data-n-g=''>");
+	font = "<link rel='stylesheet' href='./MolluTalk_files/font.css' data-n-g=''>";
+	localStorage['png'] = '.png';
 }
-//版本判断
+if(!localStorage['nofont'])$("head").append(font);
 $('.Header__Title-sc-17b1not-2.jZKzYg').wait(function()
 {
-	$(this).text("MotherTalk"+version);//正式版
-	if(getCurentFileName() == 'fast.html')$(this).html("MotherTalk<span style='color:red;'>Fast</span>"+version);//极速版
-	if(getCurentFileName() == 'lite.html')$(this).html("MotherTalk<span style='color:red;'>Lite</span>"+version);//精简版
-	if(getCurentFileName() == 'test.html')$(this).html("MotherTalk<span style='color:red;'>Test</span>"+version);//原版
+	$(this).html("MotherTalk<span style='color:red;'>"+version+"</span>");
 },'.Header__Title-sc-17b1not-2.jZKzYg')
-
-//极速版专用
-if(getCurentFileName() == 'fast.html')
+if(window.location.host == 'ggg555ttt.gitee.io')
 {
 	if(!localStorage['imgs'] || localStorage['imgs'] != 566)
 	{
-		alert('第一次进入会将图片存入本地数据库，请耐心等待5到10分钟\n建议您确认图片可以正常加载后再刷新页面\n如果出现错误建议您※清除本地数据并重新进入');
-		$.get("BA.JSON",function(data) 
+		$.getJSON("https://ghproxy.com/https://raw.githubusercontent.com/ggg555ttt/MolluTalk/main/baimg.json",function(json) 
 		{
 			localStorage['imgs'] = 0;
-			$.each(data,function(k,v)
+			$.each(json,function(k,v)
 			{
-				savehead(k,'data:image/jpeg;base64,'+v)
+				let db;
+				openDB('MotherTalk').then((db =>
+				{
+					db = db;
+					let data = {key:k,val:v}
+					updateDB(db,'Custom', data)
+					closeDB(db)//关闭数据库
+				}))
 			})
 		});
 	}
-
 }
 
 $("body").on('click',function()
@@ -76,14 +71,6 @@ $("body").on('click',function()
 			i++
 		}
 	})
-	if((JSON.stringify(sessionStorage).length/1048576).toFixed(2) > 4.9)
-	{
-		let n = 1;
-		$.each(sessionStorage,function(k,v)
-		{
-			if(n <= 10)sessionStorage.removeItem(k);n++;
-		})
-	}
 
 	$(".jhinQ").each(function(){if($(this).parents('.hfOSPu').find('.dels').length == 0)$(this).parents('.hfOSPu').append(checkbox);})
 	$(".evqKja").each(function(){if($(this).parent().find('.dels').length == 0)$(this).parent().append(checkbox);})
@@ -101,7 +88,7 @@ $(".frVjsk").wait(function()
 {
 	height = $(".iBfcuf").height().toFixed(0);
 	$(".frVjsk").append("<span style='color:green;'><button id='uphead' class='"+class0+"'><b style='color:black;'>傳</b></button>※手动上传头像，当前角色名：<br><span style='writing-mode:tb-rl;background:rgb(255,255,255);' id='cusname'></span><br>");
-	$(".frVjsk").append("<span style='color:blue;'>※本地存档大小：<b id='size' style='color:red;'>"+size+"</b>KB</span><br>");
+	$(".frVjsk").append("<span style='color:blue;'>※存储空间体积：<b id='size' style='color:red;'>"+size+"</b>KB</span><br>");
 	$(".frVjsk").append("<span style='color:blue;'>※聊天记录长度：<b id='height' style='color:red;'>"+height+"</b></span><br>");
 	$(".frVjsk").append("<span><button id='help' class='"+class0+"'><b style='color:rgb(139,187,233);'>説</b></button>※使用说明</span><br>");
 	$(".frVjsk").append("<span><button id='makecus' class='"+class0+"'><b style='color:red;'>創</b></button>※创建自定义角色</span><br>");
@@ -111,13 +98,11 @@ $(".frVjsk").wait(function()
 	$(".frVjsk").append("<span><button id='loadcus' class='"+class0+"'><b style='color:rgb(139,187,233);'>恢</b></button>※恢复自定义角色存档</span><br>");
 	$(".frVjsk").append("<span><button id='language' class='"+class0+"'><b style='color:blue;'>語</b></button>※更改语言</span><br>");
 	$(".frVjsk").append("<span><button id='send' class='"+class0+"'><b style='color:blue;'>發</b></button>※文字发送方式</span><br>");
-	$(".frVjsk").append("<span><button id='font' class='"+class0+"'><b style='color:blue;'>字</b></button>※字体加载选项</span><br>");
 	$(".frVjsk").append("<span><button id='order' class='"+class0+"'><b style='color:blue;'>序</b></button>※角色排序方式</span><br>");
 	$(".frVjsk").append("<span><button id='mark' class='"+class0+"'><b style='color:blue;'>標</b></button>※标记最近使用的角色</span><br>");
-	$(".frVjsk").append("<span><button id='formal' class='"+class0+"'><b style='color:green;'>正</b></button>※访问正式版</span><br>");
-	$(".frVjsk").append("<span><button id='fast' class='"+class0+"'><b style='color:green;'>速</b></button>※访问极速版</span><br>");
-	$(".frVjsk").append("<span><button id='lite' class='"+class0+"'><b style='color:green;'>簡</b></button>※访问精简版</span><br>");
-	$(".frVjsk").append("<span><button id='test' class='"+class0+"'><b style='color:green;'>測</b></button>※访问测试版</span><br>");
+	$(".frVjsk").append("<span><button id='hnum' class='"+class0+"'><b style='color:blue;'>質</b></button>※设置自定义头像质量</span><br>");
+	$(".frVjsk").append("<span><button id='font' class='"+class0+"'><b style='color:blue;'>字</b></button>※字体加载选项</span><br>");
+	$(".frVjsk").append("<span><button id='png' class='"+class0+"'><b style='color:blue;'>圖</b></button>※切换图片读取格式</span><br>");
 	$(".frVjsk").append("<span><button id='wmark' class='"+class0+"'><b style='color:black;'>印</b></button>※设置水印参数</span><br>");
 	$(".frVjsk").append("<span><button id='head' class='"+class0+"'><b style='color:black;'>頭</b></button>※右侧添加头像</span><br>");
 	$(".frVjsk").append("<span><button id='dels' class='"+class0+"'><b style='color:black;'>批</b></button>※批量删除或强制追加</span><br>");
@@ -141,11 +126,11 @@ $('body').on('click',"#help",function()
 		"	2.自动保存功能升级，退出浏览器时存档不会消失\n"+
 		"	3.聊天记录长度和数据大小检测功能，到达一定程度会有警告提示\n"+
 		"	4.语言、文字发送方式、字体加载选项的更改功能\n"+
-		"	5.图片体积优化，修复了一个祖传的BUG，禁止了选择肢跳转\n"+
-		"	6.加入了批量删除和强制追加功能\n"+
-		"	7.额外添加了精简、极速、测试三种访问页面\n"+
-		"	8.添加了角色排序方式的更改功能和最近使用角色的标记功能\n"+
-		"	9.新增了为图片添加水印功能，可以设置相关参数\n"+
+		"	5.加入了批量删除和强制追加功能\n"+
+		"	6.在线版读取速度优化。并且可以设置自定义头像图片质量\n"+
+		"	7.添加了角色排序方式的更改功能和最近使用角色的标记功能\n"+
+		"	8.新增了为图片添加水印功能，可以设置相关参数\n"+
+		"※5.3版本使用了新的存储方式，会导致低版本的自定义头像无法正常显示，需要重新添加头像\n"+
 		"※如果有其他使用建议和错误请向我反馈");
 });
 //上传头像
@@ -216,7 +201,6 @@ $('body').on('click',"#makecus",function()
 		$("#cusname").text(cus);
 		$("#custom").click();
 	}
-
 })
 //删除人物
 $('body').on('click',"#delcus",function()
@@ -254,13 +238,19 @@ $('body').on('click',"#changecus",function()
 		{
 			if($(this)[0]['no'] == id+1000)
 			{
-				let cname = prompt("如果点击确认后未出现文件上传界面，请点击最上方的【傳】字按钮\n若不上传头像那么则只修改角色名，当前角色名为：",$(this)[0]['zh_cn'].replace("(#"+id+")",'').trim());
+				let cname = prompt("如果点击确认后未出现文件上传界面，请点击最上方的【傳】字按钮\n若不上传头像那么则只修改角色名\n当前角色名为：",$(this)[0]['zh_cn'].replace("(#"+id+")",'').trim());
 				if(cname != null && cname.trim() != '')
 				{
 					cname = cname.trim();
 					if(cname.indexOf(' ')<0)cname = ' '+cname;
 
-					$(this)[0]['zh_cn'] = "(#"+id+")"+cname
+					cname = "(#"+id+")"+cname;
+					$(this)[0]['kr'] = cname;
+					$(this)[0]['en'] = cname;
+					$(this)[0]['jp'] = cname;
+					$(this)[0]['zh_cn'] = cname;
+					$(this)[0]['zh_tw'] = cname;
+					
 					chararr[0]['club'][0]['characters'] = arr;
 					//console.log(chararr[0]['club'][0]['characters'][id]);
 					imgindex = arr.indexOf($(this)[0])+1000+'.1';
@@ -296,13 +286,13 @@ $('body').on('click',"#savecus",function()
 	alert('建议您确认所有头像都加载完毕再使用本功能，以确保保存的存档文件是完整的')
 	let arr = [];
 	arr[0] = localStorage['custom'];
-	arr[1] = {};
-	$.each(JSON.parse(localStorage['custom'])[0]['club'][0]['characters'],function(k,i)
-	{
-		console.log($(this)[0]['no']+'.1');
-		console.log(headarr[$(this)[0]['no']+'.1']);
-		arr[1][$(this)[0]['no']+'.1'] = headarr[$(this)[0]['no']+'.1'];
-	})
+	arr[1] = localStorage['heads'];
+	// $.each(JSON.parse(localStorage['custom'])[0]['club'][0]['characters'],function(k,i)
+	// {
+	// 	console.log($(this)[0]['no']+'.1');
+	// 	console.log(headarr[$(this)[0]['no']+'.1']);
+	// 	arr[1][$(this)[0]['no']+'.1'] = headarr[$(this)[0]['no']+'.1'];
+	// })
 	let time = new Date().toLocaleString().replaceAll('/','-').replaceAll(' ','_').replaceAll(':','-');
 	download_txt('MolluTalk自定义角色存档'+time+'.json',JSON.stringify(arr));//生成专用存档
 })
@@ -319,11 +309,12 @@ $('body').on('change',"#loadcusfile",function()
 	reader.onload = function(e)
 	{
 		localStorage['custom'] = JSON.parse(this.result)[0];
-		$.each(JSON.parse(this.result)[1],function(k,i)
-		{
-			if(k.indexOf('.') == -1)k = k+'.'+1;//
-			savehead(k,i)
-		})
+		localStorage['heads'] = JSON.parse(this.result)[1];
+		// $.each(JSON.parse(this.result)[1],function(k,i)
+		// {
+		// 	if(k.indexOf('.') == -1)k = k+'.'+1;//
+		// 	savehead(k,i)
+		// })
 		alert('需刷新页面确认读取成功')
 	}
 });
@@ -336,7 +327,7 @@ $('body').on('click',"#warning",function()
 	size = (JSON.stringify(localStorage).length/1024).toFixed(0);
 	height = $(".iBfcuf").height().toFixed(0);
 	if(height > 10000)wh = "聊天记录长度为"+height+"，超过10000可能会影响到聊天记录图片的生成\n";
-	if(size > 3000)ws = "本地存档数据大小为"+size+"KB，超过5120KB会使保存功能崩溃\n";
+	if(size > 3000)ws = "存储空间体积为"+size+"KB，超过5120KB会使保存功能崩溃\n";
 	if(localStorage['last-viewed-version'])
 	{
 		if(localStorage['last-chat'])wc += localStorage['last-chat'].length
@@ -513,31 +504,6 @@ $('body').on('click',"#order",function()
 	if(!localStorage['order']){if(confirm('当前排序方式为默认排序\n是否将角色排序方式改为按ID排序？\n自创角色会排在最末尾')){localStorage['order'] = true;}}
 	else{if(confirm('当前排序方式为按ID排序\n是否将角色排序方式还原为默认排序？')){localStorage.removeItem('order');}}
 })
-$('body').on('click',"#formal",function()
-{
-	if(confirm('点击“确认”跳转\nhttps://ggg555ttt.gitee.io/mothertalk/')){window.location.replace('https://ggg555ttt.gitee.io/mothertalk/')}
-})
-$('body').on('click',"#fast",function()
-{
-	if(confirm('是否确认进入极速版网页？\n极速版将图片保存到本地数据库，节省了网络加载时间，但对设备性能可能有一定要求\nhttps://ggg555ttt.gitee.io/mothertalk/fast.html'))
-	{
-		window.location.replace(window.location.href+'fast.html')
-	}
-})
-$('body').on('click',"#lite",function()
-{
-	if(confirm('是否确认进入精简版网页？\n精简版只加载了重要文件，需要自创学生\nhttps://ggg555ttt.gitee.io/mothertalk/lite.html'))
-	{
-		window.location.replace(window.location.href+'lite.html')
-	}
-})
-$('body').on('click',"#test",function()
-{
-	if(confirm('是否确认进入测试版网页？\n测试版更改了文件的读取地址，稳定性未知\nhttps://ggg555ttt.gitee.io/mothertalk/test.html'))
-	{
-		window.location.replace(window.location.href+'test.html')
-	}
-})
 
 $('body').on('click',"#dels",function()
 {
@@ -632,4 +598,16 @@ $('body').on('click',"#wmark",function()
 	{
 		window.location.replace(window.location.href+'wmark.html')
 	}
+})
+$('body').on('click',"#hnum",function()
+{
+	if(localStorage['hnum'])num = "，当前数值为："+localStorage['hnum']
+	else num = '，当前数值为300';
+	let hnum = prompt("数值越大上传的头像越清晰，同时也会越占用存储空间\n建议在100到300之间取值"+num,300);
+	if(!isNaN(hnum) && hnum != null && hnum.trim() != '')localStorage['hnum'] = hnum.trim()
+})
+$('body').on('click',"#png",function()
+{
+	if(!localStorage['png']){if(confirm('是否将图片格式切换为PNG格式？\n加强清晰度的同时会延长页面加载时间\n本地版默认为PNG格式')){localStorage['png'] = '.png';}}
+	else{if(confirm('是否将图片格式切换为WEBP格式？\n牺牲一点清晰度的同时换来更快的加载速度\n本地版没必要使用此功能')){localStorage.removeItem('png');}}
 })

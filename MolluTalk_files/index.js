@@ -600,7 +600,7 @@
 												alt: String(e.no),
 												width: 252,
 												height: 252,
-												src: e.no > 999 ? (headarr[e.no+'.'+e.index] ? headarr[e.no+'.'+e.index] : loadhead(e.no+'.'+e.index)) : "char/ch".concat(e.no, "-").concat(e.index, ".jpg"),
+												src: loadhead(e.no+'.'+e.index),
 												//#src: "https://server.raun0129.com/asset/" + "image/character/ch".concat(e.no, "/profile/").concat(e.index, ".png"),//下方待选框
 												onClick: function()
 												{
@@ -630,7 +630,7 @@
 								width: 252,
 								height: 252,
 								alt: "sensei",
-								src: "char/ch".concat(d.I.no, "-").concat(d.I.index, ".jpg"),
+								src: loadhead(d.I.no+'.'+d.I.index),
 								//#src: "https://server.raun0129.com/asset/" + "image/character/ch".concat(d.I.no, "/profile/").concat(d.I.index, ".png"),//老师本人
 								onClick: function()
 								{
@@ -742,12 +742,13 @@
 						{
 							children: n.profile.map(function(e)
 							{
-								return (0, m.jsx)(c.t_,
+								return (0, m.jsx)('div',{//#+
+								children: (0, m.jsx)(c.t_,//#return (0, m.jsx)(c.t_,
 								{
 									width: 252,
 									height: 252,
 									alt: "profile",
-									src: n.no > 999 ? (headarr[n.no+"."+e] ? headarr[n.no+"."+e] : loadhead(n.no+"."+e)) : "".concat("char/ch").concat(n.no, "-").concat(e, ".jpg"),
+									src: loadhead(n.no+'.'+e),
 									//#src: "".concat("https://server.raun0129.com/asset/", "image/character/ch").concat(n.no, "/profile/").concat(e, ".png"),//左方人物选择分支
 									onError: function(e)
 									{
@@ -763,6 +764,7 @@
 										return n.no === t.no && e === t.index
 									}).length ? "selected" : ""
 								}, e)
+							})//#+
 							})
 						})
 					})
@@ -807,11 +809,12 @@
 								},
 								children: [(0, m.jsxs)(S,
 								{
-									children: [(0, m.jsx)(c.NZ,
+									children: [(0, m.jsx)('div',{//#+
+									children: (0, m.jsx)(c.NZ,//#children: [(0, m.jsx)(c.NZ,
 									{
 										width: 252,
 										height: 252,
-										src: n.no > 999 ? (headarr[n.no+'.'+1] ? headarr[n.no+'.'+1] : loadhead(n.no+'.'+1)) : "".concat("char/ch").concat(n.no, "-", 1, ".jpg"),
+										src: loadhead(n.no+'.1'),
 										//#src: "".concat("https://server.raun0129.com/asset/", "image/character/ch").concat(n.no, "/profile/", 1, ".png"),//左方选择框
 										onError: function(e)
 										{
@@ -819,6 +822,7 @@
 											(0, u.Mp)(n, "character")
 										},
 										alt: "profile"
+									})//#+
 									}), (0, m.jsxs)(I,
 									{
 										children: [(0, m.jsx)("h2",
@@ -3355,7 +3359,8 @@
 								{
 									children: (0, m.jsxs)(eK,
 									{
-										children: [Array(80).fill(0).map(function(e, n)
+										//*改
+										children: [Array(84).fill(0).map(function(e, n)
 										{
 											return (0, m.jsx)(eX,
 											{
@@ -3364,26 +3369,11 @@
 												width: 310,
 												onClick: function()
 												{
-													u("image/emoticon/".concat('zh_cn', "/ClanChat_Emoji_").concat(n + 1, ".jpg"))
+													u(loadhead("199."+(n+1)))
 													//#u("image/emoticon/".concat(l, "/ClanChat_Emoji_").concat(n + 1, ".png"))
 												},
-												src: "".concat("image/emoticon/").concat('zh_cn', "/ClanChat_Emoji_").concat(n + 1, ".jpg")
+												src: loadhead("199."+(n+1))
 												//#src: "".concat("https://server.raun0129.com/asset/", "image/emoticon/").concat(l, "/ClanChat_Emoji_").concat(n + 1, ".png")
-											}, n)
-										}), [, , , , ].fill(0).map(function(e, n)
-										{
-											return (0, m.jsx)(eX,
-											{
-												alt: "emoji",
-												height: 310,
-												width: 310,
-												onClick: function()
-												{
-													u("image/emoticon/dummy/ClanChat_Emoji_".concat(n + 1, ".jpg"))
-													//#u("image/emoticon/dummy/ClanChat_Emoji_".concat(n + 1, ".png"))
-												},
-												src: "".concat("image/emoticon/dummy/ClanChat_Emoji_").concat(n + 1, ".jpg")
-												//#src: "".concat("https://server.raun0129.com/asset/", "image/emoticon/dummy/ClanChat_Emoji_").concat(n + 1, ".png")
 											}, n)
 										})]
 									})
@@ -4408,8 +4398,7 @@
 									},
 									height: 252,
 									width: 252,
-									
-									src: n.sCharacter.no > 999 ? (headarr[n.sCharacter.no+'.'+n.sCharacter.index] ? headarr[n.sCharacter.no+'.'+n.sCharacter.index] : loadhead(n.sCharacter.no+'.'+n.sCharacter.index)) : "char/ch".concat(n.sCharacter.no, "-").concat(n.sCharacter.index, ".jpg"),
+									src: loadhead(n.sCharacter.no+'.'+n.sCharacter.index),
 									//#src: "/api/image?url=" + "".concat("https://server.raun0129.com/asset/", "image/character/ch").concat(n.sCharacter.no, "/profile/").concat(n.sCharacter.index, ".png"),//左方聊天记录框
 									onError: function(e)
 									{
@@ -5050,7 +5039,8 @@
 				{
 					displayName: "talk__Profile",
 					componentId: "sc-eq7cqw-14"
-				})(["box-sizing:border-box;margin:0rem;width:4rem;height:4rem;object-fit:contain;border-radius:50%;"])
+				})(["box-sizing:border-box;margin:0rem;width:4rem;height:4rem;object-fit:cover;border-radius:50%;"])
+				//#})(["box-sizing:border-box;margin:0rem;width:4rem;height:4rem;object-fit:contain;border-radius:50%;"])
 		},
 		8312: function(e, n, t)
 		{

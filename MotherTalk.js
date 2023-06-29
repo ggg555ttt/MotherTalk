@@ -87,28 +87,28 @@ $(".bIcduz").wait(function()
 $(".frVjsk").wait(function()
 {
 	height = $(".iBfcuf").height().toFixed(0);
-	$(".frVjsk").append("<span style='color:green;'><button id='uphead' class='"+class0+"'><b style='color:black;'>傳</b></button>※手动上传头像，当前角色名：<br><span style='writing-mode:tb-rl;background:rgb(255,255,255);' id='cusname'></span><br>");
-	$(".frVjsk").append("<span style='color:blue;'>※存储空间体积：<b id='size' style='color:red;'>"+size+"</b>KB</span><br>");
-	$(".frVjsk").append("<span style='color:blue;'>※聊天记录长度：<b id='height' style='color:red;'>"+height+"</b></span><br>");
-	$(".frVjsk").append("<span><button id='help' class='"+class0+"'><b style='color:rgb(139,187,233);'>説</b></button>※使用说明</span><br>");
-	$(".frVjsk").append("<span><button id='makecus' class='"+class0+"'><b style='color:red;'>創</b></button>※创建自定义角色</span><br>");
-	$(".frVjsk").append("<span><button id='delcus' class='"+class0+"'><b style='color:red;'>刪</b></button>※删除自定义角色</span><br>");
-	$(".frVjsk").append("<span><button id='changecus' class='"+class0+"'><b style='color:red;'>改</b></button>※更改角色信息※请输入角色ID：↓<input size='5' id='ccus'/><br></span><br>");
-	$(".frVjsk").append("<span><button id='savecus' class='"+class0+"'><b style='color:rgb(139,187,233);'>備</b></button>※备份自定义角色存档</span><br>");
-	$(".frVjsk").append("<span><button id='loadcus' class='"+class0+"'><b style='color:rgb(139,187,233);'>恢</b></button>※恢复自定义角色存档</span><br>");
-	$(".frVjsk").append("<span><button id='language' class='"+class0+"'><b style='color:blue;'>語</b></button>※更改语言</span><br>");
-	$(".frVjsk").append("<span><button id='send' class='"+class0+"'><b style='color:blue;'>發</b></button>※文字发送方式</span><br>");
-	$(".frVjsk").append("<span><button id='order' class='"+class0+"'><b style='color:blue;'>序</b></button>※角色排序方式</span><br>");
-	$(".frVjsk").append("<span><button id='mark' class='"+class0+"'><b style='color:blue;'>標</b></button>※标记最近使用的角色</span><br>");
-	$(".frVjsk").append("<span><button id='hnum' class='"+class0+"'><b style='color:blue;'>質</b></button>※设置自定义头像质量</span><br>");
-	$(".frVjsk").append("<span><button id='font' class='"+class0+"'><b style='color:blue;'>字</b></button>※字体加载选项</span><br>");
-	$(".frVjsk").append("<span><button id='png' class='"+class0+"'><b style='color:blue;'>圖</b></button>※切换图片读取格式</span><br>");
-	$(".frVjsk").append("<span><button id='wmark' class='"+class0+"'><b style='color:black;'>印</b></button>※设置水印参数</span><br>");
-	$(".frVjsk").append("<span><button id='head' class='"+class0+"'><b style='color:black;'>頭</b></button>※右侧添加头像</span><br>");
-	$(".frVjsk").append("<span><button id='dels' class='"+class0+"'><b style='color:black;'>批</b></button>※批量删除或强制追加</span><br>");
-	$(".frVjsk").append("<span><button id='zhui' class='"+class0+"'><b style='color:black;'>追</b></button>※强制追加选项</span><br>");
-	$(".frVjsk").append("<span><button id='refresh' class='"+class0+"'><b style='color:black;'>刷</b></button>※刷新页面</span><br>");
-	$(".frVjsk").append("<span><button id='clean' class='"+class0+"'><b style='color:black;'>清</b></button>※清除本地数据</span><br>");
+	$(".frVjsk").append("<button id='uphead' class='"+class0+"'><b style='color:black;'>傳</b></button>※<span class='tool'>手动上传头像，当前角色名：<br><span style='writing-mode:tb-rl;background:rgb(255,255,255);' id='cusname'></span><br>");
+	$(".frVjsk").append("<span class='tool'>※存储空间体积：<b id='size' style='color:red;'>"+size+"</b>KB</span><br>");
+	$(".frVjsk").append("<span class='tool'>※聊天记录长度：<b id='height' style='color:red;'>"+height+"</b></span><br>");
+	$(".frVjsk").append("<button id='help' class='"+class0+"'><b style='color:rgb(139,187,233);'>説</b></button>↑<span class='tool'>使用说明</span><br>");
+	$(".frVjsk").append("<button id='makecus' class='"+class0+"'><b style='color:red;'>創</b></button>↑<span class='tool'>创建自定义角色</span><br>");
+	$(".frVjsk").append("<button id='delcus' class='"+class0+"'><b style='color:red;'>刪</b></button>↑<span class='tool'>删除自定义角色</span><br>");
+	$(".frVjsk").append("<button id='changecus' class='"+class0+"'><b style='color:red;'>改</b></button>↑<span class='tool'>更改角色信息<br>请输入角色ID：↓</span><input size='5' id='ccus'/><br>");
+	$(".frVjsk").append("<button id='savecus' class='"+class0+"'><b style='color:rgb(139,187,233);'>備</b></button>↑<span class='tool'>备份自定义角色存档</span><br>");
+	$(".frVjsk").append("<button id='loadcus' class='"+class0+"'><b style='color:rgb(139,187,233);'>恢</b></button>↑<span class='tool'>恢复自定义角色存档</span><br>");
+	$(".frVjsk").append("<button id='language' class='"+class0+"'><b style='color:blue;'>語</b></button>↑<span class='tool'>更改语言</span><br>");
+	$(".frVjsk").append("<button id='send' class='"+class0+"'><b style='color:blue;'>發</b></button>↑<span class='tool'>文字发送方式</span><br>");
+	$(".frVjsk").append("<button id='order' class='"+class0+"'><b style='color:blue;'>序</b></button>↑<span class='tool'>角色排序方式</span><br>");
+	$(".frVjsk").append("<button id='mark' class='"+class0+"'><b style='color:blue;'>標</b></button>↑<span class='tool'>标记最近使用的角色</span><br>");
+	$(".frVjsk").append("<button id='hnum' class='"+class0+"'><b style='color:blue;'>質</b></button>↑<span class='tool'>设置自定义头像质量</span><br>");
+	$(".frVjsk").append("<button id='font' class='"+class0+"'><b style='color:blue;'>字</b></button><b>↑</b><span class='tool'>字体加载选项</span><br>");
+	$(".frVjsk").append("<button id='png' class='"+class0+"'><b style='color:blue;'>圖</b></button>↑<span class='tool'>切换图片读取格式</span><br>");
+	$(".frVjsk").append("<button id='wmark' class='"+class0+"'><b style='color:black;'>印</b></button>↑<span class='tool'>设置水印参数</span><br>");
+	$(".frVjsk").append("<button id='head' class='"+class0+"'><b style='color:black;'>頭</b></button>↑<span class='tool'>右侧添加头像</span><br>");
+	$(".frVjsk").append("<button id='dels' class='"+class0+"'><b style='color:black;'>批</b></button>↑<span class='tool'>批量删除或强制追加</span><br>");
+	$(".frVjsk").append("<button id='zhui' class='"+class0+"'><b style='color:black;'>追</b></button>↑<span class='tool'>强制追加选项</span><br>");
+	$(".frVjsk").append("<button id='refresh' class='"+class0+"'><b style='color:black;'>刷</b></button>↑<span class='tool'>刷新页面</span><br>");
+	$(".frVjsk").append("<button id='clean' class='"+class0+"'><b style='color:black;'>清</b></button>↑<span class='tool'>清除本地数据</span><br>");
 	
 },".frVjsk")
 //使用说明

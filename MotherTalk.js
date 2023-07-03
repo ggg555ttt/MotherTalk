@@ -82,7 +82,7 @@ $(".frVjsk").wait(function()
 	$(".frVjsk").append("<button class='"+class0+"' id='zhui'><b style='color:black;'>追</b></button>↑<span class='tool'>强制追加选项</span><br>");
 	$(".frVjsk").append("<button class='"+class0+"' id='refresh'><b style='color:black;'>刷</b></button>↑<span class='tool'>刷新页面</span><br>");
 	$(".frVjsk").append("<button class='"+class0+"' id='clean'><b style='color:black;'>清</b></button>↑<span class='tool'>清除本地数据</span><br>");
-	$(".frVjsk").append("<button class='"+class0+"' id='new'><b style='color:black;'>新</b></button>↑<span class='tool'>下载最新版</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='new'><b style='color:black;'>新</b></button>↑<span class='tool'>下载最新版密码:595t</span><br>");
 	
 },".frVjsk")
 //使用说明
@@ -512,5 +512,5 @@ $('body').on('click',".lgnIRp",function()
 })
 $('body').on('click',"#new",function()
 {
-	window.location.replace('https://404.lanzouk.com/i9S0I10pjaxe')
+	window.location.replace('https://404.lanzouk.com/b018yzkaj')
 })

@@ -1,4 +1,5 @@
 /*预定义区*/
+var qchar = 'yes';
 var imgindex;var text;//人物自定义
 var headarr = [];//头像储存
 var chararr = [];//自定义角色列表
@@ -8,7 +9,7 @@ var size = (JSON.stringify(localStorage).length/1024).toFixed(0);//数据大小
 if(!localStorage['heads'])localStorage['heads'] = '[{}]';
 if(!localStorage['first'])localStorage['first'] = '[]';
 if(!localStorage['chats'])localStorage['chats'] = '[]';
-if(!localStorage['lang'])localStorage['lang'] = 'zh_cn';
+if(!localStorage['mt-lang'])localStorage['mt-lang'] = 'zh_cn';
 $.each(sessionStorage,function(k,i)
 {
 	headarr[i] = sessionStorage[k];

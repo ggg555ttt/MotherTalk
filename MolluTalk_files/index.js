@@ -503,6 +503,10 @@
 						}),
 						w = (0, i.C)(function(e)
 						{
+							//*
+							if(qchar == 'yes' && localStorage['qchar'])e.sCharacter = JSON.parse(localStorage['qchar']);
+							qchar = 'no';
+							localStorage['qchar'] = JSON.stringify(e.sCharacter);
 							return e.sCharacter
 						}),
 						_ = function(n)
@@ -3471,7 +3475,17 @@
 					}, [w, Z, v]);
 					var P = function(e, n)
 						{
-							13 === (e.which || e.keyCode) && (e.ctrlKey || e.shiftKey) && (e.preventDefault(), "" !== e.currentTarget.value && n())
+							if(13 === (e.which || e.keyCode) && !(e.ctrlKey || e.shiftKey) && "" !== e.currentTarget.value && !localStorage['send'])
+							{
+								e.preventDefault()
+								n()
+							}
+							if(13 === (e.which || e.keyCode) && (e.ctrlKey || e.shiftKey) && "" !== e.currentTarget.value && localStorage['send'] == 'click')
+							{
+								e.preventDefault()
+								n()
+							}
+							//#13 === (e.which || e.keyCode) && (e.ctrlKey || e.shiftKey) && (e.preventDefault(), "" !== e.currentTarget.value && n())
 						},
 						I = (0, r.useCallback)(function(e, r)
 						{
@@ -3876,7 +3890,7 @@
 											{
 												l(e)
 											},
-											disabled: "edit" === e && "heart" === t.type || "add" === e && "reply" === t.type || "time" === e && "chat" !== t.type,
+											//#disabled: "edit" === e && "heart" === t.type || "add" === e && "reply" === t.type || "time" === e && "chat" !== t.type,
 											children: F.Z[e][f]
 										}, n)
 									})
@@ -4305,7 +4319,8 @@
 										replyGroup: e.replyGroup,
 										sCharacter: e.sCharacter,
 										content: e.content,
-										isFirst: !e.isFirst
+										isFirst: !e.isFirst,
+										file: e.file//#原版忘添了？
 									}) : o.push(e)
 								}), a((0, eo.U_)(o))
 							}
@@ -4384,7 +4399,7 @@
 							{
 								onClick: function()
 								{
-									//#p()
+									p()
 								},
 								style:
 								{
@@ -4399,7 +4414,7 @@
 									height: 252,
 									width: 252,
 									src: loadhead(n.sCharacter.no+'.'+n.sCharacter.index),
-									//#src: "/api/image?url=" + "".concat("https://server.raun0129.com/asset/", "image/character/ch").concat(n.sCharacter.no, "/profile/").concat(n.sCharacter.index, ".png"),//左方聊天记录框
+									//#src: "/api/image?url=" + "".concat("https://server.raun0129.com/asset/", "image/character/ch").concat(n.sCharacter.no, "/profile/").concat(n.sCharacter.index, ".png"),//右方聊天记录框
 									onError: function(e)
 									{
 										var n = e.currentTarget;
@@ -4941,7 +4956,7 @@
 				{
 					displayName: "talk__TextBox",
 					componentId: "sc-eq7cqw-4"
-				})(["user-select:text;position:relative;color:white;width:fit-content;border-radius:10px;background:", ";border:1px solid ", ";white-space:pre-wrap;overflow-wrap:break-word;word-break:break-all;word-wrap:break-all;line-break:loose;font-size:1.2rem;padding:0.6rem;line-height:1.7rem;::after{content:'';position:absolute;left:-0.5rem;top:0.6rem;border-top:0.3rem solid transparent;border-right:0.5rem solid ", ";border-bottom:0.3rem solid transparent;}"], function(e)
+				})(["user-select:text;position:relative;color:white;width:fit-content;border-radius:10px;background:", ";border:1px solid ", ";white-space:pre-wrap;overflow-wrap:break-word;word-break:break-all;word-wrap:break-all;line-break:loose;font-size:1.2rem;padding:0.6rem;/*line-height:1.7rem;*/::after{content:'';position:absolute;left:-0.5rem;top:0.6rem;border-top:0.3rem solid transparent;border-right:0.5rem solid ", ";border-bottom:0.3rem solid transparent;}"], function(e)
 				{
 					return e.theme.color.rgb76_91_111
 				}, function(e)

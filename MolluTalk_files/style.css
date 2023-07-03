@@ -4,3 +4,11 @@
 	color:white;
 	width: 64px;
 }
+#cusname
+{
+	writing-mode:tb-rl;
+	background:rgb(255,255,255);
+}
+.blue{color:blue;}
+.red{color:red;}
+.black{color:black;}

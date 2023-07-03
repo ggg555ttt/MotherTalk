@@ -1,8 +1,8 @@
 //https://try8.cn/tool/format/js
-var version = '5.3';
+var version = '5.4';
 $.get("https://ghproxy.com/https://raw.githubusercontent.com/ggg555ttt/MolluTalk/main/check.json",function(data) 
 {
-	if(data > version)alert('最新版本为：'+data+'\n请尝试清除浏览器缓存数据以访问最新版本')
+	if(data > version)alert('最新版本为：'+data+'\n请尝试清除浏览器缓存数据以访问最新版本\n如果是离线版请点击【新】按钮下载最新版')
 });
 var font = "<link rel='stylesheet' href='./MolluTalk_files/font_web.css' data-n-g=''>";
 if(window.location.host == 'localhost' || window.location.host == '127.0.0.1')
@@ -46,32 +46,6 @@ $("body").on('click',function()
 	$('#height').text(height);
 	warning();
 
-	if(localStorage['send'] == 'enter')$('.juTGbm:eq(1)').attr('onkeydown',"if(event.keyCode === 13)event.preventDefault();")
-	else $('.juTGbm:eq(1)').removeAttr('onkeydown');
-
-	let arr = [];
-	if(first == 'first')
-	{
-		$('.bDaxmX img').each(function(i)
-		{
-			if($(this).attr('style') == 'display: block;')arr[i] = true
-			else arr[i] = false
-		});
-		localStorage['first'] = JSON.stringify(arr)
-	}
-	let i = 0;
-	let chats = JSON.parse(localStorage['chats']);
-	$.each(chats,function(k,v)
-	{
-		//console.log(v.sCharacter);
-		if(v.sCharacter.no > 0 && (v.type == 'chat' || v.type == 'image'))
-		{
-			chats[k]['isFirst'] = JSON.parse(localStorage['first'])[i];
-			localStorage['chats'] = JSON.stringify(chats);
-			i++
-		}
-	})
-
 	$(".jhinQ").each(function(){if($(this).parents('.hfOSPu').find('.dels').length == 0)$(this).parents('.hfOSPu').append(checkbox);})
 	$(".evqKja").each(function(){if($(this).parent().find('.dels').length == 0)$(this).parent().append(checkbox);})
 	if($('.dels').attr('hidden') != 'hidden')$('.dels').removeAttr('hidden');
@@ -87,28 +61,28 @@ $(".bIcduz").wait(function()
 $(".frVjsk").wait(function()
 {
 	height = $(".iBfcuf").height().toFixed(0);
-	$(".frVjsk").append("<button id='uphead' class='"+class0+"'><b style='color:black;'>傳</b></button>※<span class='tool'>手动上传头像，当前角色名：<br><span style='writing-mode:tb-rl;background:rgb(255,255,255);' id='cusname'></span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='uphead' class='"+class0+"'><b style='color:black;'>傳</b></button>※<span class='tool'>手动上传头像，当前角色名：<br><span id='cusname'></span><br>");
 	$(".frVjsk").append("<span class='tool'>※存储空间体积：<b id='size' style='color:red;'>"+size+"</b>KB</span><br>");
 	$(".frVjsk").append("<span class='tool'>※聊天记录长度：<b id='height' style='color:red;'>"+height+"</b></span><br>");
-	$(".frVjsk").append("<button id='help' class='"+class0+"'><b style='color:rgb(139,187,233);'>説</b></button>↑<span class='tool'>使用说明</span><br>");
-	$(".frVjsk").append("<button id='makecus' class='"+class0+"'><b style='color:red;'>創</b></button>↑<span class='tool'>创建自定义角色</span><br>");
-	$(".frVjsk").append("<button id='delcus' class='"+class0+"'><b style='color:red;'>刪</b></button>↑<span class='tool'>删除自定义角色</span><br>");
-	$(".frVjsk").append("<button id='changecus' class='"+class0+"'><b style='color:red;'>改</b></button>↑<span class='tool'>更改角色信息<br>请输入角色ID：↓</span><input size='5' id='ccus'/><br>");
-	$(".frVjsk").append("<button id='savecus' class='"+class0+"'><b style='color:rgb(139,187,233);'>備</b></button>↑<span class='tool'>备份自定义角色存档</span><br>");
-	$(".frVjsk").append("<button id='loadcus' class='"+class0+"'><b style='color:rgb(139,187,233);'>恢</b></button>↑<span class='tool'>恢复自定义角色存档</span><br>");
-	$(".frVjsk").append("<button id='language' class='"+class0+"'><b style='color:blue;'>語</b></button>↑<span class='tool'>更改语言</span><br>");
-	$(".frVjsk").append("<button id='send' class='"+class0+"'><b style='color:blue;'>發</b></button>↑<span class='tool'>文字发送方式</span><br>");
-	$(".frVjsk").append("<button id='order' class='"+class0+"'><b style='color:blue;'>序</b></button>↑<span class='tool'>角色排序方式</span><br>");
-	$(".frVjsk").append("<button id='mark' class='"+class0+"'><b style='color:blue;'>標</b></button>↑<span class='tool'>标记最近使用的角色</span><br>");
-	$(".frVjsk").append("<button id='hnum' class='"+class0+"'><b style='color:blue;'>質</b></button>↑<span class='tool'>设置自定义头像质量</span><br>");
-	$(".frVjsk").append("<button id='font' class='"+class0+"'><b style='color:blue;'>字</b></button><b>↑</b><span class='tool'>字体加载选项</span><br>");
-	$(".frVjsk").append("<button id='png' class='"+class0+"'><b style='color:blue;'>圖</b></button>↑<span class='tool'>切换图片读取格式</span><br>");
-	$(".frVjsk").append("<button id='wmark' class='"+class0+"'><b style='color:black;'>印</b></button>↑<span class='tool'>设置水印参数</span><br>");
-	$(".frVjsk").append("<button id='head' class='"+class0+"'><b style='color:black;'>頭</b></button>↑<span class='tool'>右侧添加头像</span><br>");
-	$(".frVjsk").append("<button id='dels' class='"+class0+"'><b style='color:black;'>批</b></button>↑<span class='tool'>批量删除或强制追加</span><br>");
-	$(".frVjsk").append("<button id='zhui' class='"+class0+"'><b style='color:black;'>追</b></button>↑<span class='tool'>强制追加选项</span><br>");
-	$(".frVjsk").append("<button id='refresh' class='"+class0+"'><b style='color:black;'>刷</b></button>↑<span class='tool'>刷新页面</span><br>");
-	$(".frVjsk").append("<button id='clean' class='"+class0+"'><b style='color:black;'>清</b></button>↑<span class='tool'>清除本地数据</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='help'><b style='color:rgb(139,187,233);'>説</b></button>↑<span class='tool'>使用说明</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='makecus'><b style='color:red;'>創</b></button>↑<span class='tool'>创建自定义角色</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='delcus'><b style='color:red;'>刪</b></button>↑<span class='tool'>删除自定义角色</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='changecus'><b style='color:red;'>改</b></button>↑<span class='tool'>更改角色信息<br>请输入角色ID：↓</span><input size='5' id='ccus'/><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='savecus'><b style='color:rgb(139,187,233);'>備</b></button>↑<span class='tool'>备份自定义角色存档</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='loadcus'><b style='color:rgb(139,187,233);'>恢</b></button>↑<span class='tool'>恢复自定义角色存档</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='language'><b style='color:blue;'>語</b></button>↑<span class='tool'>更改语言</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='send'><b style='color:blue;'>發</b></button>↑<span class='tool'>文字发送方式</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='order'><b style='color:blue;'>序</b></button>↑<span class='tool'>角色排序方式</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='hnum'><b style='color:blue;'>質</b></button>↑<span class='tool'>设置自定义头像质量</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='font'><b style='color:blue;'>字</b></button><b>↑</b><span class='tool'>字体加载选项</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='png'><b style='color:blue;'>圖</b></button>↑<span class='tool'>切换图片读取格式</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='wmark'><b style='color:black;'>印</b></button>↑<span class='tool'>设置水印参数</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='head'><b style='color:black;'>頭</b></button>↑<span class='tool'>右侧添加头像</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='dels'><b style='color:black;'>批</b></button>↑<span class='tool'>批量删除或强制追加</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='zhui'><b style='color:black;'>追</b></button>↑<span class='tool'>强制追加选项</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='refresh'><b style='color:black;'>刷</b></button>↑<span class='tool'>刷新页面</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='clean'><b style='color:black;'>清</b></button>↑<span class='tool'>清除本地数据</span><br>");
+	$(".frVjsk").append("<button class='"+class0+"' id='new'><b style='color:black;'>新</b></button>↑<span class='tool'>下载最新版</span><br>");
 	
 },".frVjsk")
 //使用说明
@@ -390,48 +364,6 @@ $("body").on('click',".jiban",function()
 	$(this).siblings("input").remove();
 	$(this).remove();
 });
-//修复祖传BUG
-$('body').on('click',".bDaxmX",function()
-{
-	if($(this).find('img').is('img') && first == 'first')
-	{
-		if($(this).find('img').attr('style') == 'display: block;')
-		{
-			$(this).parent().attr('style','padding: 0.5rem 1rem 0px;')//y
-			$(this).find('img').attr('style','display: none;')//y
-			$(this).next().find('span').eq(0).attr('style','display: none;')//y
-			$(this).next().find('div').find('span').eq(0).attr('class','talk__TextBox-sc-eq7cqw-4 talk__NTextBox-sc-eq7cqw-5 fWynih fYSjWX')
-		}
-		else
-		{
-			$(this).parent().attr('style','')
-			$(this).find('img').attr('style','display: block;')
-			$(this).next().find('span').eq(0).attr('style','height: 1.8rem; line-height: 1.5rem;')
-			$(this).next().find('div').find('span').eq(0).attr('class','talk__TextBox-sc-eq7cqw-4 fWynih')
-		}
-	}
-});
-$(".hfOSPu").wait(function()
-{
-	$.each(JSON.parse(localStorage['first']),function(k,v)
-	{
-		if(v == true)
-		{
-			$('.bDaxmX img:eq('+k+')').parent().parent().attr('style','')
-			$('.bDaxmX img:eq('+k+')').attr('style','display: block;')
-			$('.bDaxmX img:eq('+k+')').parent().next().find('span').eq(0).attr('style','height: 1.8rem; line-height: 1.5rem;')
-			$('.bDaxmX img:eq('+k+')').parent().next().find('div').find('span').eq(0).attr('class','talk__TextBox-sc-eq7cqw-4 fWynih')
-		}//console.log(v)
-		if(v == false)
-		{
-			$('.bDaxmX img:eq('+k+')').parent().parent().attr('style','padding: 0.5rem 1rem 0px;')//y
-			$('.bDaxmX img:eq('+k+')').attr('style','display: none;')//y
-			$('.bDaxmX img:eq('+k+')').parent().next().find('span').eq(0).attr('style','display: none;')//y
-			$('.bDaxmX img:eq('+k+')').parent().next().find('div').find('span').eq(0).attr('class','talk__TextBox-sc-eq7cqw-4 talk__NTextBox-sc-eq7cqw-5 fWynih fYSjWX')
-		}
-	})
-	first = 'first';
-},".hfOSPu")
 
 $('body').on('click',"#head",function()
 {
@@ -465,35 +397,27 @@ $('body').on('click',"#language",function()
 	if (lang != null)
 	{
 		alert('更改完成，请刷新页面!');
-		localStorage['lang'] = lang;
+		localStorage['mt-lang'] = lang;
 	}
 })
 $('body').on('click',"#send",function()
 {
-	if(!localStorage['send'])
+	if(localStorage['send'])
 	{
 		if(confirm('当前发送方式为点击按钮发送，是否换为回车发送？'))
 		{
-			localStorage['send'] = 'enter';
-			$('.juTGbm:eq(1)').attr('onkeydown',"if(event.keyCode === 13)event.preventDefault();");
+			localStorage.removeItem('send');
 		}
 	}
 	else
 	{
 		if(confirm('当前发送方式为回车发送，是否换为点击按钮发送？'))
 		{
-			localStorage.removeItem('send');
-			$('.juTGbm:eq(1)').removeAttr('onkeydown');
+			localStorage['send'] = 'click';
 		}
 	}
 })
-$("body").keyup(function(event)
-{
-	if(event.keyCode == 13 && localStorage['send'] == 'enter')
-	{
-		$("[title='send']").click();
-	}
-});
+
 $('body').on('click',"#font",function()
 {
 	if(!localStorage['nofont']){if(confirm('是否取消加载字体文件？取消可以优化页面加载时间\n确认后请刷新页面')){localStorage['nofont'] = true;}}
@@ -561,37 +485,7 @@ function handler(e)
 	let class2 = "common__Button-sc-1ojome3-8 common__SubmitButton-sc-1ojome3-9 talk__ReplyButton-sc-eq7cqw-11 cVRiXh eIEKpg evqKja";
 	if(e.target.className == class1 || e.target.className == class2){e.stopPropagation();e.preventDefault();}
 }
-$('body').on('click',"#mark",function()
-{
-	if(localStorage['mark'])num = "\n当前标记数量上限为："+localStorage['mark']
-	else num = '';
-	let mark = prompt("请输入想要标记的角色数量上限，点击取消或空值为不标记\n被标记的角色名字前面会多一个“@”，用来快速检索"+num);
-	if(!isNaN(mark) && mark != null && mark.trim() != '')localStorage['mark'] = mark.trim()
-	else
-	{
-		localStorage.removeItem('mark')
-		localStorage.removeItem('quick')
-	}
 
-})
-$('body').on('click',".fuyFOl",function()
-{
-	if(localStorage['mark'])
-	{
-		let quick = [];
-		if(localStorage['quick'])quick = JSON.parse(localStorage['quick']);
-		alt = $(this).attr('alt');
-		if($(".jotOXZ:eq(1)").attr('style') == "display: none;" && alt != 'sensei')
-		{
-			quick.unshift(alt);
-			quick = Array.from(new Set(quick))
-			if(quick.length > localStorage['mark'])quick = quick.slice(0,localStorage['mark']);
-			localStorage['quick'] = JSON.stringify(quick);
-			console.log(quick);
-			//localStorage['first'] = JSON.stringify(arr)
-		}
-	}
-})
 $('body').on('click',"#wmark",function()
 {
 	if(confirm('是否进入水印参数设置页面？\n设置完成后返回MotherTalk生成聊天图片就可以看到带水印的图片\n带水印的图片无法自动下载，需要手动保存'))
@@ -610,4 +504,13 @@ $('body').on('click',"#png",function()
 {
 	if(!localStorage['png']){if(confirm('是否将图片格式切换为PNG格式？\n加强清晰度的同时会延长页面加载时间\n本地版默认为PNG格式')){localStorage['png'] = '.png';}}
 	else{if(confirm('是否将图片格式切换为WEBP格式？\n牺牲一点清晰度的同时换来更快的加载速度\n本地版没必要使用此功能')){localStorage.removeItem('png');}}
+})
+
+$('body').on('click',".lgnIRp",function()
+{
+	if($(this).parent().next().is('div'))alert('不要使用追加功能，会出现错误')
+})
+$('body').on('click',"#new",function()
+{
+	window.location.replace('https://404.lanzouk.com/i9S0I10pjaxe')
 })

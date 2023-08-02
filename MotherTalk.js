@@ -1,3 +1,7 @@
+if(confirm('MotherTalk已不再更新，点击确定跳转后续版本MoeTalk'))
+{
+	window.location.replace('https://ggg555ttt.gitee.io/moetalk')
+}
 //https://try8.cn/tool/format/js
 var version = '5.4';
 $.get("https://ghproxy.com/https://raw.githubusercontent.com/ggg555ttt/MolluTalk/main/check.json",function(data) 

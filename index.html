@@ -4,29 +4,69 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="next-head-count" content="17">
-		<link rel="stylesheet" href="./MolluTalk_files/style.css" data-n-g="">
-		<!-- <link rel="stylesheet" href="./MolluTalk_files/e7efb4dcee62a99e.css" data-n-g=""> -->
-		<script src="jquery-3.6.4.min.js" defer=""></script>
-		<script src="Function.js" defer=""></script>
-		<script src="MotherTalk.js" defer=""></script>
-		<script src="./MolluTalk_files/webpack-0a2a587924e1d405.js" defer=""></script>
-		<script src="./MolluTalk_files/framework.js" defer=""></script>
-		<!-- <script src="./MolluTalk_files/framework-2c79e2a64abdb08b.js" defer=""></script> -->
-		<script src="./MolluTalk_files/main-dfffdc208236edda.js" defer=""></script>
-		<script src="./MolluTalk_files/app.js" defer=""></script>
-		<!-- <script src="./MolluTalk_files/_app-74e7c375cbdc0021.js" defer=""></script> -->
-		<script src="./MolluTalk_files/ad7f724d-94baee9a2d394f8b.js" defer=""></script>
-		<script src="./MolluTalk_files/288-68932622dcf1348d.js" defer=""></script>
-		<script src="./MolluTalk_files/876-d056d91d7a6271a4.js" defer=""></script>
-		<script src="./MolluTalk_files/index.js" defer=""></script>
-		<!-- <script src="./MolluTalk_files/index-49a36a7b26b69907.js" defer=""></script> -->
-		<link rel="shortcut icon" href="./favicon.png">
+<!-- 样式 --><link rel="stylesheet" href="./MoeTalk/STYLE/style.css" data-n-g="">
+		<script src="./MoeTalk/Jquery-3.6.4.min.js" defer=""></script>
+		<script src="./MoeTalk/Function.js" defer=""></script>
+		<script src="./MoeTalk/MoeTalk.js" defer=""></script>
+<!-- 差分映射 --><script src="./MolluTalk/JSON/CharFace.JSON" defer=""></script>
+
+<!-- 存档图片 --><script src="./MolluTalk/JSON/MT_Img.JSON" defer=""></script>
+<!-- 提示文本 --><script src="./MolluTalk/JSON/MT_Text.JSON" defer=""></script>
+<!-- 社团数据 --><script src="./MolluTalk/JSON/MT-Club.JSON" defer=""></script>
+<!-- 学校数据 --><script src="./MolluTalk/JSON/MT-School.JSON" defer=""></script>
+<!-- 学生数据 --><script src="./MolluTalk/JSON/MT-Characters.JSON" defer=""></script>
+		<script src="./MolluTalk/webpack-0a2a587924e1d405.js" defer=""></script>
+		<script src="./MolluTalk/framework.js" defer=""></script>
+		<script src="./MolluTalk/main-dfffdc208236edda.js" defer=""></script>
+<!-- 核心 --><script src="./MolluTalk/app.js" defer=""></script>
+		<script src="./MolluTalk/ad7f724d-94baee9a2d394f8b.js" defer=""></script>
+		<script src="./MolluTalk/288-68932622dcf1348d.js" defer=""></script>
+		<script src="./MolluTalk/876-d056d91d7a6271a4.js" defer=""></script>
+<!-- 主页 --><script src="./MolluTalk/index.js" defer=""></script>
+
+<!-- 		<script src="http://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+		<script type="text/javascript">
+			$('body').on('click',"#capture",function()
+			{
+				if(confirm('截屏'))
+				{
+					let json = [];
+					json[0] = {};
+					json[0]['title'] = '备份存档';
+					json[0]['nickname'] = 'MoeTalk';
+					json[0]['date'] = '不明';
+					json[0]['replyNo'] = localStorage['replyNo'];
+					json[0]['replyGroup'] = localStorage['replyNo'];
+					json[0]['chars'] = localStorage['chars'];
+					json[1] = JSON.parse(localStorage['chats']);
+					var element = $('.iBfcuf');
+					// 创建一个canvas元素
+					var canvas = document.createElement('canvas');
+					canvas.width = element.outerWidth();  // 设置canvas宽度为元素宽度
+					canvas.height = element.outerHeight();  // 设置canvas高度为元素高度
+					// 获取2D绘图上下文
+					var context = canvas.getContext('2d');
+					// 使用html2canvas库将元素绘制到canvas上
+					html2canvas(element[0],{scale:1.1}).then(function (canvas)
+					{
+						// 将canvas转换为图像
+						var image = canvas.toDataURL('image/png');
+						// 创建一个新的图像元素
+						// 将图像元素添加到页面中
+						combineFiles(image.replace('data:image/png;base64,',''),JSON.stringify(json),"MoeTalk截屏.PNG");
+					});
+				}
+			})
+		</script> -->
+		<link rel="shortcut icon" href="./MoeTalk/UI/Favor_Schedule_Deco.webp">
 	</head>
 	<body>
+		<span id='notice'><b></b></span>
 		<div id="__next">
 		</div>
 		<script id="__NEXT_DATA__" type="application/json">
 			{"props":{"pageProps":{}},"page":"/","query":{},"buildId":"3OWxHtb__kBpj2Lnn_di-","nextExport":true,"autoExport":true,"isFallback":false,"scriptLoader":[{"strategy":"afterInteractive","async":true,"src":"https://www.googletagmanager.com/gtag/js?id=G-CWBXC2EKNZ"},{"id":"gtag-init","strategy":"afterInteractive","dangerouslySetInnerHTML":{"__html":"\n                window.dataLayer = window.dataLayer || [];\n                function gtag(){dataLayer.push(arguments);}\n                gtag('js', new Date());\n                gtag('config', 'G-CWBXC2EKNZ', {\n                  page_path: window.location.pathname,\n                });\n              "}}]}
 		</script>
+		<a href='./Setting.html'>这是设置页面链接，为MoeTalk因不明原因崩溃而无法进入时准备的，请尝试导出或清除数据并向我们反馈吧</a>
 	</body>
 </html>

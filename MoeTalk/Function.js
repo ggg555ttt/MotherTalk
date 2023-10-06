@@ -1,3 +1,7 @@
+if(confirm('此版本已停止更新，请导出数据后点击【确定】访问最新版本'))
+{
+	window.location.replace('https://moetalk.gitee.io/')
+}
 if(sessionStorage.length === 0)
 {
 	sessionStorage['cache'] = true;

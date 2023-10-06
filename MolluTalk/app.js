@@ -10142,7 +10142,7 @@
 								//*反馈通道和自定义标题
 								children: [(0, O.jsx)(I,
 								{
-									children: [(0, O.jsx)(I,{id:"readme",children:localStorage['MoeTalk']}),(0, O.jsx)(I,{children:' '}),(0, O.jsx)('a',
+									children: [(0, O.jsx)(I,{id:"readme",children:'MotherTalk'}),(0, O.jsx)(I,{children:' '}),(0, O.jsx)('a',
 									{
 										hidden:(window.screen.availWidth < 400),
 										href: "https://wj.qq.com/s2/12952865/a1aa/",
@@ -12629,7 +12629,7 @@
 								},
 								children: (0, O.jsx)("span",
 								{
-									children: localStorage['MoeTalk']+' '+version//#蒙版标题自定义localStorage['MoeTalk']
+									children: 'MotherTalk'+version//#蒙版标题自定义localStorage['MoeTalk']
 								})
 							})]
 						})

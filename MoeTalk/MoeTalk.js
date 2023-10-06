@@ -1,10 +1,5 @@
 //https://try8.cn/tool/format/js
-if(confirm('此为新版MoeTalk不支持旧版角色的解决方案\n点击确定跳转新版本MoeTalk\n点击取消继续进入'))
-{
-	localStorage['heads'] = localStorage['heads'].replaceAll('.1"','/1"')
-	window.location.replace('https://ggg555ttt.gitee.io/moetalk')
-}
-var version = '-999';
+var version = '?';
 var cfemoji = 'NO';//表情差分开关
 var CharFaceIndex = null;//差分映射
 var mtype = 'chat';//
@@ -91,14 +86,7 @@ $(".frVjsk").wait(function()
 //使用说明
 $('body').on('click',"#readme",function()
 {
-	if(confirm("MoeTalk是MotherTalk的后续版本\nMoeTalk为基于原作者Raun0129开发的MolluTalk的个人改版\n"+
-		"MolluTalk的代码取得方式来自浏览器自带的Ctrl+S\n"+
-		"对于代码的改动地点均用注释//与/**/标注\n"+
-		"点击【确认】将跳转至反馈页面"))
-	{
-		window.open("https://wj.qq.com/s2/12952865/a1aa/");
-	}
-
+	window.location.replace('https://moetalk.gitee.io/')
 });
 //创建人物
 $("body").append("<input id='custom' hidden type='file' accept='image/*'>");//添加上传标签
